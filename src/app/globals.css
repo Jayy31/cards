@@ -1,0 +1,44 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --ui-bg: #faf6f0;
+  --ui-bg2: #f2ebe1;
+  --ui-card: #ffffff;
+  --ui-ink: #2a1f1a;
+  --ui-muted: #7a6a5f;
+  --ui-line: #e6dccf;
+  --ui-brand: #8a1c2b;
+  --ui-brand-ink: #ffffff;
+  --ui-gold: #b8892b;
+  --ui-radius: 14px;
+  --ui-shadow: 0 1px 2px rgba(40, 20, 10, 0.06), 0 8px 24px rgba(40, 20, 10, 0.08);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ui-bg);
+  color: var(--ui-ink);
+  font-family: var(--f-ui), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}
+
+::selection {
+  background: #f1d9a6;
+}

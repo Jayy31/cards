@@ -1,0 +1,553 @@
+/* ==========================================================================
+   Business cards: Indian heritage collection (designs/heritage.tsx)
+   ========================================================================== */
+
+/* ---------- Warli ---------- */
+.wl-wall {
+  position: absolute;
+  inset: 0;
+  background:
+    var(--tex-blotch),
+    radial-gradient(ellipse at 40% 40%, color-mix(in srgb, var(--paper) 88%, #fff), var(--paper) 55%, var(--paper2));
+  background-size: 500px, auto;
+}
+.wl-art {
+  fill: var(--ink);
+  stroke: var(--ink);
+}
+.wl-art circle,
+.wl-art path {
+  stroke-linecap: round;
+}
+.wl-art.faint {
+  opacity: 0.45;
+}
+.wl-ground {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-dasharray: 2 5;
+}
+.wl-main {
+  position: absolute;
+  left: 46px;
+  top: 118px;
+  width: 320px;
+  z-index: 5;
+  color: var(--ink);
+}
+.wl-logo.biz-logo-up {
+  width: 110px;
+  height: 48px;
+  background-position: left center;
+  margin-bottom: 8px;
+}
+.wl-company {
+  font-family: var(--fd);
+  line-height: 1.02;
+}
+.wl-tag {
+  margin-top: 12px;
+  font: 400 19px var(--fb);
+  color: var(--ink-soft);
+}
+.bz-warli .fm {
+  bottom: 60px;
+  color: var(--ink);
+}
+.bz-warli .sb-rule {
+  background: var(--ink);
+  height: 1.5px;
+}
+.bz-warli .sb-contacts .biz-icon {
+  color: var(--ink);
+}
+
+/* ---------- Mughal jaali ---------- */
+.jl-stone {
+  fill: var(--paper);
+}
+.jl-hole {
+  fill: var(--paper2);
+}
+.jl-frame {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.jl-arch {
+  fill: color-mix(in srgb, var(--paper) 80%, #fff);
+  filter: drop-shadow(0 0 0 transparent);
+}
+.jl-arch-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.jl-arch-line.thin {
+  stroke-width: 0.9;
+}
+.jl-panel {
+  fill: color-mix(in srgb, var(--paper) 88%, #fff);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.jl-main {
+  position: absolute;
+  left: 250px;
+  width: 200px;
+  top: 120px;
+  bottom: 40px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: var(--ink);
+}
+.jl-mono {
+  font: 700 30px var(--f-cinzel-deco);
+  color: var(--accent);
+}
+.jl-logo.biz-logo-up {
+  width: 110px;
+  height: 56px;
+}
+.jl-company {
+  font-family: var(--fd);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.jl-tag {
+  font: italic 500 15px var(--fb);
+  color: var(--ink-soft);
+}
+
+/* ---------- Bandhani ---------- */
+.bd-cloth {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--paper) 85%, #fff), var(--paper) 55%, var(--paper2));
+}
+.bd-dots {
+  filter: blur(0.35px);
+}
+.bd-w {
+  fill: #fff8ee;
+}
+.bd-y {
+  fill: var(--accent);
+}
+.bd-panel {
+  position: absolute;
+  left: 176px;
+  top: 96px;
+  width: 348px;
+  height: 208px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  background: var(--accent2);
+  color: var(--ink);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 5px var(--accent2),
+    inset 0 0 0 6.5px var(--paper),
+    0 6px 18px rgba(0, 0, 0, 0.3);
+}
+.bd-panel.back {
+  inset: 26px;
+  width: auto;
+  height: auto;
+}
+.bd-logo.biz-logo-up {
+  width: 110px;
+  height: 46px;
+}
+.bd-company {
+  font-family: var(--fd);
+  line-height: 1.05;
+}
+.bd-tag {
+  font: italic 500 16px var(--fb);
+  color: var(--ink-soft);
+}
+.bz-bandhani .fm {
+  bottom: 18px;
+  right: 18px;
+  padding: 8px 12px;
+  background: var(--accent2);
+  color: var(--ink);
+  border-radius: 6px;
+}
+
+/* ---------- Ajrakh ---------- */
+.aj-base {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, var(--paper2), var(--paper) 80%);
+}
+.aj-cell {
+  fill: var(--paper);
+}
+.aj-ring {
+  fill: none;
+  stroke: #efe6d4;
+  stroke-width: 1;
+  stroke-dasharray: 1.5 2.5;
+}
+.aj-star {
+  fill: var(--accent);
+}
+.aj-eye {
+  fill: #121212;
+}
+.aj-dot {
+  fill: #efe6d4;
+}
+.aj-band {
+  stroke: #efe6d4;
+  stroke-width: 2;
+}
+.aj-band.thin {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.aj-main {
+  position: absolute;
+  left: 175px;
+  right: 175px;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  color: #f4ecdc;
+}
+.aj-logo.biz-logo-up {
+  width: 110px;
+  height: 50px;
+}
+.aj-company {
+  font-family: var(--fd);
+  line-height: 1.05;
+}
+.aj-tag {
+  font: italic 500 17px var(--fb);
+  color: color-mix(in srgb, #f4ecdc 75%, var(--accent));
+}
+.bz-ajrakh .fm {
+  bottom: 30px;
+}
+.bz-ajrakh .sb {
+  color: #f4ecdc;
+  padding-bottom: 70px;
+}
+.bz-ajrakh .sb-title,
+.bz-ajrakh .sb-local {
+  color: color-mix(in srgb, #f4ecdc 70%, var(--accent));
+}
+.bz-ajrakh .sb-contacts .biz-icon,
+.bz-ajrakh .biz-xl {
+  color: color-mix(in srgb, var(--accent) 60%, #fff);
+}
+
+/* ---------- Kanjivaram (portrait) ---------- */
+.kj-silk {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.06) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--paper) 85%, #fff), var(--paper) 55%, var(--paper2));
+}
+.kj-pallu {
+  fill: var(--accent2);
+}
+.kj-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent calc(var(--lx, 0.3) * 100% - 30%), rgba(255, 220, 240, 0.22) calc(var(--lx, 0.3) * 100%), transparent calc(var(--lx, 0.3) * 100% + 30%));
+  mix-blend-mode: screen;
+}
+.kj-main {
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  top: 250px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+.kj-logo.biz-logo-up {
+  width: 120px;
+  height: 64px;
+}
+.kj-company {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--fd);
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.bz-kanjivaram .foil-text.gild {
+  background-image:
+    linear-gradient(105deg, transparent calc(var(--sweep, -1) * 100% - 12%), rgba(255, 255, 255, 0.95) calc(var(--sweep, -1) * 100%), transparent calc(var(--sweep, -1) * 100% + 12%)),
+    var(--foil-grad);
+  background-size: 100% 100%, 320% 100%;
+}
+.kj-tag {
+  font: italic 500 17px var(--fb);
+  color: var(--ink-soft);
+}
+.bz-kanjivaram .fm {
+  bottom: 170px;
+}
+.bz-kanjivaram .sb {
+  padding-bottom: 110px;
+}
+.bz-kanjivaram .sb-name {
+  color: var(--foil-solid);
+}
+.bz-kanjivaram .sb-rule {
+  background: var(--foil-grad);
+}
+.bz-kanjivaram .sb-contacts .biz-icon,
+.bz-kanjivaram .biz-xl {
+  color: var(--foil-solid);
+}
+
+/* ---------- Kolam ---------- */
+.kl-floor {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 45%, var(--paper2), var(--paper) 75%);
+}
+.kl-art {
+  fill: none;
+  stroke: #f7f3ea;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+}
+.kl-art .kl-dot {
+  fill: #f7f3ea;
+  stroke: none;
+}
+.kl-art.faint {
+  opacity: 0.4;
+}
+.kl-main {
+  position: absolute;
+  left: 50px;
+  top: 0;
+  bottom: 0;
+  width: 330px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  color: #f7f3ea;
+}
+.kl-logo.biz-logo-up {
+  width: 110px;
+  height: 56px;
+  background-position: left center;
+}
+.kl-company {
+  font-family: var(--fd);
+  line-height: 1.05;
+}
+.kl-tag {
+  font: italic 500 17px var(--fb);
+  color: color-mix(in srgb, #f7f3ea 70%, var(--accent));
+}
+.bz-kolam .fm {
+  bottom: 30px;
+}
+.bz-kolam .sb {
+  color: #f7f3ea;
+}
+.bz-kolam .sb-title,
+.bz-kolam .sb-local {
+  color: color-mix(in srgb, #f7f3ea 70%, var(--accent));
+}
+.bz-kolam .sb-contacts .biz-icon,
+.bz-kolam .biz-xl {
+  color: var(--accent);
+}
+
+/* ---------- Madhubani ---------- */
+.mb2-line {
+  fill: none;
+  stroke: #1b1b1b;
+  stroke-width: 2.2;
+}
+.mb2-line.thin {
+  stroke-width: 1;
+}
+.mb2-red {
+  fill: var(--accent);
+}
+.mb2-yellow {
+  fill: var(--accent2);
+}
+.mb2-halo {
+  fill: color-mix(in srgb, var(--accent2) 30%, var(--paper));
+  stroke: #1b1b1b;
+  stroke-width: 2;
+  stroke-dasharray: 3 4;
+}
+.mb2-body {
+  fill: var(--accent);
+  stroke: #1b1b1b;
+  stroke-width: 2;
+}
+.mb2-fin {
+  fill: #2f6b3c;
+  stroke: #1b1b1b;
+  stroke-width: 1.8;
+}
+.mb2-scale path,
+.mb2-gill {
+  fill: none;
+  stroke: #1b1b1b;
+  stroke-width: 1.2;
+}
+.mb2-eye {
+  fill: #fff;
+  stroke: #1b1b1b;
+  stroke-width: 1.4;
+}
+.mb2-pupil {
+  fill: #1b1b1b;
+}
+.mb2-main {
+  position: absolute;
+  left: 60px;
+  top: 0;
+  bottom: 0;
+  width: 330px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  color: var(--ink);
+}
+.mb2-logo.biz-logo-up {
+  width: 110px;
+  height: 50px;
+  background-position: left center;
+}
+.mb2-company {
+  font-family: var(--fd);
+  line-height: 1.05;
+}
+.mb2-tag {
+  font: 400 19px var(--fs);
+  color: var(--ink-soft);
+}
+.bz-madhubani .fm {
+  left: 60px;
+  bottom: 52px;
+}
+.bz-madhubani .sb {
+  padding: 50px 60px;
+}
+.bz-madhubani .sb-rule {
+  height: 6px;
+  width: 70px;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 10px, var(--accent2) 10px 20px);
+}
+
+/* ---------- Ribbon & seal ---------- */
+.rs-ribbon {
+  position: absolute;
+  z-index: 3;
+  width: 120px;
+  height: 640px;
+  right: 150px;
+  top: -120px;
+  rotate: 42deg;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 18%, rgba(255, 255, 255, 0.35) 42%, transparent 60%, rgba(0, 0, 0, 0.22)),
+    var(--accent2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+.rs-ribbon.back {
+  width: 22px;
+  height: 100%;
+  left: 20px;
+  right: auto;
+  top: 0;
+  rotate: 0deg;
+}
+.bz-seal.bz-back .sb {
+  padding-left: 70px;
+}
+.rs-seal {
+  position: absolute;
+  right: 104px;
+  top: 96px;
+  z-index: 6;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+.rs-main {
+  position: absolute;
+  left: 52px;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+.rs-logo.biz-logo-up {
+  width: 110px;
+  height: 50px;
+  background-position: left center;
+}
+.rs-company {
+  font-family: var(--fd);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+.rs-rule {
+  width: 60px;
+  height: 1.5px;
+  background: var(--foil-grad);
+}
+.rs-tag {
+  font: italic 500 17px var(--fb);
+  color: var(--ink-soft);
+}
+.bz-seal .fm {
+  left: 52px;
+  bottom: 32px;
+}
+.bz-seal .sb-name {
+  color: var(--ink);
+}
+.bz-seal .sb-rule {
+  background: var(--foil-grad);
+}
