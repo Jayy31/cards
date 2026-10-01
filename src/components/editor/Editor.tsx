@@ -3,6 +3,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { BusinessData, CardData, Category, EventItem, EventKind, HostSide, InviteData, SymbolKind } from "@/lib/types";
+import { coverLineDefaults } from "@/components/wedding/sig/coverstory";
+import PhotoPositioner from "./PhotoPositioner";
+import { applyFestival, FESTIVALS, FROM_PREFIXES } from "@/lib/festival";
 import { applyTradition, EVENT_KINDS, eventKind, hostLine, INFO_LABELS, TRADITIONS } from "@/lib/wedding";
 import { getPalette, getTemplate, TEMPLATES } from "@/lib/templates";
 import { uid } from "@/lib/format";
@@ -18,6 +21,7 @@ const LABELS: Record<Category, { primary: string; primarySub: string; primaryPar
   "shop-opening": { primary: "Shop / business name", primarySub: "What you sell (tagline)", primaryPar: "" },
   "griha-pravesh": { primary: "Name of the home", primarySub: "Address", primaryPar: "" },
   business: { primary: "", primarySub: "", primaryPar: "" },
+  festival: { primary: "Your family name (or business)", primarySub: "Names under it (optional)", primaryPar: "" },
 };
 
 const SYMBOLS: { id: SymbolKind; label: string }[] = [
@@ -94,7 +98,7 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
       return;
     }
     const find = (k: string) => Math.max(0, specs.findIndex((s) => s.kind === k));
-    const map: Record<string, number> = { design: 0, blessing: 0, people: 1, story: find("story"), events: find("events"), family: find("family"), rsvp: find("venue"), info: find("info"), closing: specs.length - 1 };
+    const map: Record<string, number> = { design: 0, blessing: 0, magazine: 0, greeting: find("message"), people: 1, story: find("story"), events: find("events"), family: find("family"), rsvp: find("venue"), info: find("info"), closing: specs.length - 1 };
     if (id in map) setPage(map[id]);
   };
 
@@ -224,6 +228,19 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
           {inv && (
             <>
               <Section id="blessing" title="Blessing & cover" subtitle={isWedding && inv.tradition ? `${TRADITIONS.find((x) => x.id === inv.tradition)?.label} · deity, mantra, heading` : "Deity, mantra and heading"} open={open === "blessing"} onOpen={openSection}>
+                {t.category === "festival" && (
+                  <div className="ef">
+                    <span className="ef-label">Festival</span>
+                    <div className="chips">
+                      {FESTIVALS.map((f) => (
+                        <button key={f.id} type="button" className={`chip ${inv.festival === f.id ? "on" : ""}`} onClick={() => setInv((d) => applyFestival(d, f.id))}>
+                          {f.label}
+                        </button>
+                      ))}
+                    </div>
+                    <span className="ef-hint">Sets the heading, wishes, message and date. Dates are for 2026; check your panchang and adjust below.</span>
+                  </div>
+                )}
                 {isWedding && (
                   <div className="ef">
                     <span className="ef-label">Tradition</span>
@@ -264,6 +281,33 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
                 <Text label="Heading" value={inv.eyebrow} onChange={(v) => setInv((d) => (d.eyebrow = v))} placeholder="Wedding Invitation" />
               </Section>
 
+              {t.category === "festival" && (
+                <Section id="greeting" title="Your greeting" subtitle={`From ${inv.primary.name || "…"}`} open={open === "greeting"} onOpen={openSection}>
+                  <div className="ef">
+                    <span className="ef-label">Words before your name</span>
+                    <div className="chips">
+                      {FROM_PREFIXES.map((f) => (
+                        <button key={f} type="button" className={`chip ${(inv.fromPrefix ?? "") === f ? "on" : ""}`} onClick={() => setInv((d) => (d.fromPrefix = f))}>
+                          {f}
+                        </button>
+                      ))}
+                    </div>
+                    <input className="ef-inline" value={inv.fromPrefix ?? ""} onChange={(e) => setInv((d) => (d.fromPrefix = e.target.value || undefined))} placeholder="or write your own…" />
+                    <span className="ef-hint">Shown on the cover before your family name, e.g. “warm wishes from The Mehta Family”.</span>
+                  </div>
+                  <Text label={L.primary} value={inv.primary.name} onChange={(v) => setInv((d) => (d.primary.name = v))} placeholder="The Mehta Family / Shah Jewellers" />
+                  <Text label={L.primarySub} value={inv.primary.subtitle ?? ""} onChange={(v) => setInv((d) => (d.primary.subtitle = v || undefined))} placeholder="Rajesh, Sunita, Aarav & Myra" />
+                  <Text label="Wish line" value={inv.blessingLine} onChange={(v) => setInv((d) => (d.blessingLine = v))} multiline rows={2} />
+                  <Text label="Your message" value={inv.message ?? ""} onChange={(v) => setInv((d) => (d.message = v || undefined))} multiline rows={5} hint="Shown on its own page. Keep it to a few lines." />
+                  <Text label="Sign-off" value={inv.closing.title} onChange={(v) => setInv((d) => (d.closing.title = v))} placeholder="With love and light" />
+                  <Upload label="Family photo (optional)" value={inv.photo} onChange={(u) => setInv((d) => (d.photo = u))} hint="Shown on the message page" />
+                  <Upload label="Business logo (optional)" value={inv.logo} onChange={(u) => setInv((d) => (d.logo = u))} hint="For greetings to clients and customers" />
+                  <Text label="Year label (optional)" value={inv.yearLabel ?? ""} onChange={(v) => setInv((d) => (d.yearLabel = v || undefined))} placeholder="Vikram Samvat 2083" />
+                  <Text label="Festival date & time" type="datetime-local" value={inv.mainDateTime} onChange={(v) => setInv((d) => (d.mainDateTime = v))} hint="Drives the “days to go” line" />
+                </Section>
+              )}
+
+              {t.category !== "festival" && (
               <Section id="people" title={inv.secondary ? "Couple & families" : "Main details"} subtitle={inv.secondary ? `${inv.primary.name} & ${inv.secondary.name}` : inv.primary.name} open={open === "people"} onOpen={openSection}>
                 {isWedding && inv.secondary && (
                   <div className="ef">
@@ -313,6 +357,72 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
                 <Text label="Quote" value={inv.quote ?? ""} onChange={(v) => setInv((d) => (d.quote = v))} multiline rows={2} />
                 <Text label="Main ceremony date & time" type="datetime-local" value={inv.mainDateTime} onChange={(v) => setInv((d) => (d.mainDateTime = v))} hint="Drives the live countdown" />
               </Section>
+              )}
+
+              {t.wed?.design === "coverstory" && (
+                <Section id="magazine" title="Magazine cover" subtitle={`${{ classic: "Classic", minimal: "Minimal", block: "Bold Block" }[inv.magazine?.layout ?? "classic"]} · ${inv.photo ? "your photo" : "illustrated"}`} open={open === "magazine"} onOpen={openSection}>
+                  <div className="ef">
+                    <span className="ef-label">Cover style</span>
+                    <div className="chips">
+                      {(
+                        [
+                          ["classic", "Classic"],
+                          ["minimal", "Minimal"],
+                          ["block", "Bold Block"],
+                        ] as const
+                      ).map(([id, label]) => (
+                        <button key={id} type="button" className={`chip ${(inv.magazine?.layout ?? "classic") === id ? "on" : ""}`} onClick={() => setInv((d) => (d.magazine = { ...d.magazine, layout: id }))}>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <Upload label="Cover photo" value={inv.photo} onChange={(u) => setInv((d) => (d.photo = u))} hint="Without a photo, the cover uses the illustrated profiles" />
+                  {inv.photo && (
+                    <div className="ef">
+                      <span className="ef-label">Frame the photo</span>
+                      <PhotoPositioner
+                        src={inv.photo}
+                        aspect={{ classic: 500 / 700, minimal: 352 / 372, block: 500 / 542 }[inv.magazine?.layout ?? "classic"]}
+                        x={inv.magazine?.photoX ?? 50}
+                        y={inv.magazine?.photoY ?? 35}
+                        zoom={inv.magazine?.photoZoom ?? 1}
+                        onChange={(v) => setInv((d) => (d.magazine = { ...d.magazine, photoX: v.x, photoY: v.y, photoZoom: v.zoom }))}
+                      />
+                    </div>
+                  )}
+                  <div className="ef">
+                    <span className="ef-label">Photo look</span>
+                    <div className="chips">
+                      {(
+                        [
+                          ["natural", "Natural"],
+                          ["mono", "Black & White"],
+                          ["duotone", "Duotone"],
+                        ] as const
+                      ).map(([id, label]) => (
+                        <button key={id} type="button" disabled={!inv.photo} className={`chip ${(inv.magazine?.photo ?? "natural") === id ? "on" : ""}`} onClick={() => setInv((d) => (d.magazine = { ...d.magazine, photo: id }))}>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                    <span className="ef-hint">{inv.photo ? "Duotone recolours your photo in this palette's two colours" : "Upload a photo to choose its look"}</span>
+                  </div>
+                  {(
+                    [
+                      ["tag", "Tag"],
+                      ["headline", "Headline"],
+                      ["teaser", "Teaser line"],
+                      ["feature", "Feature line"],
+                      ["inside", "“Inside” line"],
+                      ["extra", "Extra line"],
+                    ] as const
+                  ).map(([k, label]) => (
+                    <Text key={k} label={label} value={inv.magazine?.[k] ?? ""} onChange={(v) => setInv((d) => (d.magazine = { ...d.magazine, [k]: v || undefined }))} placeholder={coverLineDefaults(inv)[k]} />
+                  ))}
+                  <span className="ef-hint">Leave a line blank to use the automatic text shown in grey.</span>
+                </Section>
+              )}
 
               {inv.secondary && (
                 <Section id="story" title="Our story & photos" subtitle={inv.story?.enabled ? `${inv.story.photos.length} photo${inv.story.photos.length === 1 ? "" : "s"}` : "Optional page"} open={open === "story"} onOpen={openSection}>
@@ -330,7 +440,7 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
                 </Section>
               )}
 
-              <Section id="events" title="Events" subtitle={`${inv.events.length} event${inv.events.length === 1 ? "" : "s"}`} open={open === "events"} onOpen={openSection}>
+              <Section id="events" title={t.category === "festival" ? "Celebration (optional)" : "Events"} subtitle={t.category === "festival" && !inv.events.length ? "Add a puja, dinner or get-together" : `${inv.events.length} event${inv.events.length === 1 ? "" : "s"}`} open={open === "events"} onOpen={openSection}>
                 {inv.events.map((e, i) => (
                   <EventEditor
                     key={e.id}
@@ -363,7 +473,7 @@ export default function Editor({ templateId: initialTemplate, initialData, cardI
                 </button>
               </Section>
 
-              {(t.category === "wedding" || t.category === "griha-pravesh") && (
+              {(t.category === "wedding" || t.category === "griha-pravesh" || t.category === "festival") && (
                 <Section id="family" title="Family & little ones" subtitle={inv.family.enabled ? `${inv.family.names.length} names` : "Hidden"} open={open === "family"} onOpen={openSection}>
                   <Toggle label="Show family page" checked={inv.family.enabled} onChange={(v) => setInv((d) => (d.family.enabled = v))} />
                   {inv.family.enabled && (

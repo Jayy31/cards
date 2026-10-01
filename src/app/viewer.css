@@ -973,3 +973,36 @@
 .turn-pan .leaf {
   transform-origin: 50% 50%;
 }
+.turn-launch .leaf,
+.turn-mandala .leaf,
+.turn-coin .leaf,
+.turn-snuff .leaf {
+  transform-origin: 50% 50%;
+}
+.turn-tear .leaf {
+  transform-origin: 100% 0;
+}
+.turn-smoke .leaf,
+.turn-blast .leaf {
+  transform-origin: 50% 50%;
+}
+.turn-cube .leaf {
+  transform-origin: 100% 50%;
+}
+.turn-swing .leaf {
+  transform-origin: 50% 230%;
+}
+.turn-dolly .leaf {
+  transform-origin: 0 50%;
+}
+.turn-glide .leaf,
+.turn-gilded .leaf,
+.turn-fizzle .leaf {
+  transform-origin: 50% 50%;
+}
+.turn-current .leaf {
+  transform-origin: 0 50%;
+}
+.turn-fallback .leaf {
+  transform-origin: 50% 100%;
+}

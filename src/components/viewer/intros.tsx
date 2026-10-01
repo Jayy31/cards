@@ -19,6 +19,26 @@ import { mend } from "@/components/wedding/sig/kintsugi";
 import { flock } from "@/components/wedding/sig/origami";
 import { unfoldmap } from "@/components/wedding/sig/wanderlust";
 import { fireflies } from "@/components/wedding/sig/firefly";
+import { lightsup } from "@/components/festival/roshni";
+import { drawrangoli } from "@/components/festival/rangoli";
+import { coinrain } from "@/components/festival/swarna";
+import { kindle } from "@/components/festival/pehladiya";
+import { tearoff } from "@/components/festival/nayasaal";
+import { sparkwrite } from "@/components/festival/phuljhadi";
+import { fuse } from "@/components/festival/pataka";
+import { unbox } from "@/components/festival/mithai";
+import { aarti } from "@/components/festival/mandir";
+import { switchon } from "@/components/festival/ghar";
+import { release } from "@/components/festival/kandil";
+import { ripple } from "@/components/festival/deepdaan";
+import { boom } from "@/components/festival/sivakasi";
+import { yantradraw } from "@/components/festival/yantra";
+import { launchname } from "@/components/festival/aatish";
+import { khata } from "@/components/festival/chopda";
+import { inland } from "@/components/festival/chitthi";
+import { spin as newsspin } from "@/components/festival/akhbaar";
+import { lightbox } from "@/components/festival/kaagaz";
+import { tvon } from "@/components/festival/tv";
 import { Gulmohar, Fern, TempleBell, TempleBorder, Thoranam, LotusSide } from "@/components/wedding/art";
 
 /**
@@ -347,4 +367,4 @@ const curtain: IntroDef = {
   },
 };
 
-export const INTROS: Record<WedIntro, IntroDef> = { envelope, doors, scroll, bloom, box, curtain, alpona, unfold, twirl, jaali, gatefold, pallu, veil, brush, popup, printer, warp, wiper, leader, paparazzi, mist, shake, mend, flock, unfoldmap, fireflies };
+export const INTROS: Record<WedIntro, IntroDef> = { envelope, doors, scroll, bloom, box, curtain, alpona, unfold, twirl, jaali, gatefold, pallu, veil, brush, popup, printer, warp, wiper, leader, paparazzi, mist, shake, mend, flock, unfoldmap, fireflies, lightsup, drawrangoli, coinrain, kindle, tearoff, sparkwrite, fuse, unbox, aarti, switchon, release, ripple, boom, yantradraw, launchname, khata, inland, newsspin, lightbox, tvon };

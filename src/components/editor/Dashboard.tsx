@@ -94,7 +94,13 @@ export default function Dashboard({ card, rsvps, isNew }: { card: StoredCard; rs
     .map((s) => s.trim())
     .filter(Boolean);
   const pages = useMemo(() => (d.kind === "invite" ? buildPages(t, d) : [{ key: "front", label: "Front" }, { key: "back", label: "Back" }]), [t, d]);
-  const waText = (url: string, who?: string) => (d.kind === "invite" ? `${who ? `Dear ${who},\n` : ""}You are cordially invited — ${d.eyebrow}: ${title} 🙏\n\nOpen your invitation: ${url}` : `${d.name} · ${d.company}\n${url}`);
+  const greeting = t.category === "festival";
+  const waText = (url: string, who?: string) =>
+    d.kind !== "invite"
+      ? `${d.name} · ${d.company}\n${url}`
+      : greeting
+        ? `${who ? `Dear ${who},\n` : ""}${d.eyebrow}! 🪔 A little something from ${d.primary.name}.\n\nOpen your greeting: ${url}`
+        : `${who ? `Dear ${who},\n` : ""}You are cordially invited — ${d.eyebrow}: ${title} 🙏\n\nOpen your invitation: ${url}`;
 
   const stats = useMemo(() => {
     const yes = rsvps.filter((r) => r.attending === "yes");
@@ -120,7 +126,7 @@ export default function Dashboard({ card, rsvps, isNew }: { card: StoredCard; rs
         <div className="dash-card-prev">{d.kind === "invite" ? <InviteViewer templateId={t.id} data={d} mode="thumb" flat /> : <BusinessViewer templateId={t.id} data={d} mode="thumb" flat />}</div>
         <div className="dash-col">
           <div className="dash-panel">
-            {isNew && <div className="dash-new">Your card is live! Share the link below — every guest gets the full envelope experience.</div>}
+            {isNew && <div className="dash-new">{greeting ? "Your greeting is ready! Share it on WhatsApp, or download it below for your Status and Instagram." : "Your card is live! Share the link below — every guest gets the full envelope experience."}</div>}
             <h2>{title}</h2>
             <div className="linkbox">
               <input readOnly value={link} onFocus={(e) => e.target.select()} />
@@ -136,10 +142,28 @@ export default function Dashboard({ card, rsvps, isNew }: { card: StoredCard; rs
             </div>
           </div>
 
-          {d.kind === "invite" && (
+          {greeting && (
             <div className="dash-panel">
-              <h3>Personal invitations</h3>
-              <p className="muted">Each guest sees their name on the envelope (“To, Sharma Family”) and on the cover. Paste one name per line.{hasPrivate && " Tick “Family” for guests who should also see your family-only events."}</p>
+              <h3>For Status &amp; Instagram</h3>
+              <p className="muted">Download the animated video for WhatsApp Status and Instagram Stories or Reels, or the cover image for a post.</p>
+              <VideoExport cardId={card.id} />
+              <div className="dl-grid">
+                <a className="btn-ghost" href={`/api/export?card=${card.id}&format=png&page=0`}>
+                  <Icon name="image" size={16} /> Cover image
+                </a>
+                <a className="btn-ghost" href={`/api/export?card=${card.id}&format=png&page=1`}>
+                  <Icon name="image" size={16} /> Message image
+                </a>
+              </div>
+            </div>
+          )}
+
+          {d.kind === "invite" && (
+            <details className="dash-panel" open>
+              <summary>
+                <h3>{greeting ? "Send it personally" : "Personal invitations"}</h3>
+              </summary>
+              <p className="muted">{greeting ? "Sending to someone in a private chat? Add their name and they get their own copy that greets them by name (“For Sharma Uncle”, or “Dear Priya,” on letter designs). Paste one name per line, then send each link." : "Each guest sees their name on the envelope (“To, Sharma Family”) and on the cover. Paste one name per line."}{hasPrivate && " Tick “Family” for guests who should also see your family-only events."}</p>
               <textarea className="ef" style={{ font: "inherit", padding: 10, borderRadius: 10, border: "1px solid var(--ui-line)", minHeight: 90 }} value={guestText} onChange={(e) => setGuestText(e.target.value)} placeholder={"Sharma Family\nMr. & Mrs. Patel\nRiya & Kunal"} />
               {guests.length > 0 && (
                 <div className="guest-list">
@@ -175,13 +199,13 @@ export default function Dashboard({ card, rsvps, isNew }: { card: StoredCard; rs
                   })}
                 </div>
               )}
-            </div>
+            </details>
           )}
 
           <div className="dash-panel">
-            <h3>Downloads</h3>
+            <h3>{greeting ? "More downloads" : "Downloads"}</h3>
             <p className="muted">{d.kind === "invite" ? "For relatives who prefer forwarding a video or image on WhatsApp — and a print-ready PDF." : "A 10-second animated video for WhatsApp status, a print-ready PDF (front & back) or images."}</p>
-            <VideoExport cardId={card.id} />
+            {!greeting && <VideoExport cardId={card.id} />}
             <div className="dl-grid">
               <a className="btn-ghost" href={`/api/export?card=${card.id}&format=pdf`}>
                 <Icon name="file" size={16} /> PDF (all pages)

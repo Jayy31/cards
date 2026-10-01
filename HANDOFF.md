@@ -164,6 +164,15 @@ CSS: `src/app/signature.css`.
 | Wanderlust (`wanderlust`) | illustrated map, two routes meeting at the venue | `unfoldmap` (2-fold map opens) | `pan` | pin | procedural islands, compass rose, cartouche |
 | Firefly (`firefly`) | layered papercut night forest, swing couple | `fireflies` (swarm, radial reveal) | `recede` | glowin | live fireflies, per-layer tilt parallax |
 
+Cover Story options (added after the user's request): `InviteData.magazine` = { layout: classic | minimal | block,
+photo: natural | mono | duotone, tag, headline, teaser, feature, inside, extra }. Blank lines fall back to automatic
+text (`coverLineDefaults`). Duotone is an SVG filter built from the palette (darkest ink → light accent).
+Edited in the editor's "Magazine cover" section, which only shows for this design.
+Photo framing: `magazine.photoX / photoY` (focal point, %) and `photoZoom` (1–2.5), applied by `CoverPhoto`
+(an <img> with object-position + scale around the focal point). The editor control is
+`components/editor/PhotoPositioner.tsx`: drag inside a window shaped like the layout's photo area, a zoom slider,
+and a reset. It's reusable for any future photo slot.
+
 Infrastructure added for these:
 - `WedDesign.Pages` lets a design replace the shared inner page of a kind (used by Premiere and Cover Story).
 - `components/wedding/live.tsx`: `LiveCanvas` + `cardClock()`. Video export sets `window.__cardTime` in `seek`,
@@ -173,6 +182,84 @@ Infrastructure added for these:
 - Performance: the star chart draws faint stars and the Milky Way on a canvas (SVG for bright stars only).
   Preview pages load in ~7 s on the dev server; production should be faster. Worth profiling on a real phone.
 - Verified: typecheck; every page screenshot-checked; intro and turn frames seeked for all 10.
+
+## Festival Greetings (live, all Signature) (2026-10-01)
+For Dhanteras, Diwali and the New Year (Navratri deliberately left out). Five designs:
+
+| Design (id) | Concept | Intro | Turn | Reveal | Interaction |
+| --- | --- | --- | --- | --- | --- |
+| Roshni (`roshni`) | old-city rooftop at night, string lights, kandils, diya parapet (no moon: amavasya) | `lightsup` (windows switch on, first rocket) | `launch` | spark | tap the sky → fireworks (`rs-launch` event) |
+| Rangoli (`rangoli-utsav`) | top-down powder rangoli ringed by diyas | `drawrangoli` (rings drawn, diyas light in a circle) | `mandala` | powder | tap → marigold petals (`rg-petals`) |
+| Swarna (`swarna`) | Dhanteras kalash of coins, Lakshmi footprints, Shubh–Labh, logo slot | `coinrain` (canvas coin shower) | `coin` | gleam | tap → gold coins fall and bounce (`sw-coins`) |
+| Pehla Diya (`pehla-diya`) | one brass diya in the dark | `kindle` (spark, flame, light fills the card) | `snuff` | kindle | tap → light a row of 7 diyas one by one |
+| Naya Saal (`naya-saal`) | tear-off calendar, Samvat 2082 → 2083 sunrise | `tearoff` (old page torn, confetti) | `tear` | dawn | works for 1 Jan too (year label) |
+
+How greetings work (they reuse `InviteData`, with category `festival`):
+- `lib/festival.ts`: `FESTIVALS` presets (heading, mantra, wish, message, 2026 date, symbol, year label, sign-off) +
+  `applyFestival` + `festivalSample`. **Dates assumed**: Dhanteras 6 Nov, Diwali 8 Nov, Nutan Varsh 10 Nov,
+  Bhai Dooj 11 Nov 2026. Verify against a panchang before launch.
+- New fields: `festival`, `message`, `logo`, `yearLabel`. The sender is `primary.name` (+ `primary.subtitle`), the heading
+  `eyebrow`, the wish `blessingLine`, the sign-off `closing.title`.
+- Pages (`buildPages`): cover → **message** (new shared `Message` page with logo/photo, wish, note, sign-off, and
+  "Diwali is N days away") → optional celebration (events) + venue/RSVP → family → wishes (closing).
+- Editor: festival chips in "Blessing & cover"; a "Your greeting" section replaces the couple section; the family section
+  is enabled; events are titled "Celebration (optional)".
+- Sharing: WhatsApp text, link preview (title/description) and viewer bar are greeting-aware (no "cordially invited",
+  no calendar button without events).
+- Code: `src/components/festival/*.tsx` (registry `index.tsx`), templates `src/lib/festivalTemplates.ts`, CSS `src/app/festival.css`.
+- Intros that light up cover elements target them inside the book (`.rs-win`, `.rg-ring`, `.pd-flame`…). CSS animations
+  live on inner groups (`.fd-flick`, twinkle) so they don't override the intro's inline styles.
+
+### Diwali collection (15 more, in chunks of 5). Chunk 1 done (2026-10-01)
+| Design (id) | Concept | Intro | Turn | Reveal | Interaction |
+| --- | --- | --- | --- | --- | --- |
+| Phuljhadi (`phuljhadi`) | a sparkler writes the greeting in light (long exposure) | `sparkwrite` (tip writes each line; clip reveal) | `smoke` | write | draw light trails with a finger (central zone) |
+| Pataka (`pataka`) | courtyard cracker night: anaar, chakri, bottle rocket | `fuse` (spark runs along a fuse, MotionPath) | `blast` | crackle | tap a cracker to light it |
+| Mithai Box (`mithai-box`) | luxury sweet box, 9 procedural mithais, silver varq | `unbox` (ribbon, lid hinges open, sweets pop) | `cube` | sweet | tap to eat a sweet (counter) |
+| Pooja Mandir (`pooja-mandir`) | carved mandir with deity image, aarti thali + flame trail, incense, petals | `aarti` (light ring traced, then expands) | `swing` | bless | tap to ring the bells |
+| Diwali Ghar (`diwali-ghar`) | real CSS 3D house with chasing fairy lights, kandils, rangoli | `switchon` (floor by floor, camera swings in) | `dolly` | lights | tap to cycle light modes |
+
+**Important fix:** video export now seeks intro timelines with events ON (`seek(t, false)` in InviteViewer), so
+`onUpdate`-driven intros (Phuljhadi's writing) render in MP4. Before, they only worked live.
+
+**Greetings are broadcast** (family to everyone: WhatsApp/Status/Instagram), not per-guest. `fromPrefix` field +
+`fromText(d)` on every cover; editor "Words before your name" chips; dashboard leads with "For Status & Instagram"
+(video, cover PNG, message PNG); personal links are a collapsed `<details>`.
+
+Chunk 2 (done) — files `kandil.tsx`, `deepdaan.tsx`, `sivakasi.tsx`, `yantra.tsx`, `aatish.tsx`:
+
+| Template | Look | Intro | Turn | Reveal | Live interaction |
+| --- | --- | --- | --- | --- | --- |
+| Akash Kandil (`akash-kandil`) | dusk lake, 40 canvas sky lanterns + reflections, family on a jetty | `release` | `glide` | warmth | tap to release a lantern |
+| Deep Daan (`deep-daan`) | night river, ghat + chhatris, drifting leaf-boat diyas | `ripple` (mask opens from rings) | `current` | wave | tap water: ripples + new diya |
+| Sivakasi (`sivakasi`) | retro cracker-box label, family as the "brand", CMY misregistration, halftone | `boom` | `fallback` (topples forward) | slap | tap the fuse: BOOM confetti |
+| Shree Yantra (`shree-yantra`, dhanteras) | gold yantra (9 triangles, lotus rings, bhupura), coin stream into bindu | `yantradraw` (rings draw outward) | `gilded` | radiate | tap yantra: pulse + more gold |
+| Aatishbazi (`aatishbazi`) | rockets whose sparks form greeting + family name (text sampled from offscreen canvas), 10 s cycle | `launchname` (dispatches `at-start`) | `fizzle` | sparkle | tap sky: bursts (`at-tap`) |
+
+Note: backward `rotateX` turns hide behind the next leaf (preserve-3d) — tip forward instead.
+`paintCoin` is now exported from swarna.tsx.
+
+Chunk 3 (DONE). The user rejected Neo/Kaleidoscope/Bazaar/Noir and asked for "beyond imagination": each card its own
+medium, real + welcoming + charming, not the same particle effects everywhere. Greetings go to groups AND individual chats,
+so every cover also greets a named recipient (`?to=` / personal links). The dashboard "Send it personally" panel is now open by default.
+
+| Template | Medium | Intro | Turn | Reveal | Live interaction |
+| --- | --- | --- | --- | --- | --- |
+| Chopda Pujan (`chopda-pujan`, `chopda.tsx`) | top-bound red bahi-khata: kumkum swastik, Shubh-Labh, ledger entries ("Opening balance of blessings ∞"), violet rubber stamp | `khata` (thread untied, cover lifts, ink writes) | `flipup` | ledger | tap stamp: re-stamp (up to 3) |
+| Chitthi (`chitthi`, `chitthi.tsx`) | blue inland letter on a desk; handwritten letter, printed diya stamp, family P.O. postmark, "Dear {guest}" | `inland` (strip tears, flaps unfold) | `fold` | pen | tap stamp: postmark thump |
+| Diwali Times (`diwali-times`, `akhbaar.tsx`) | vintage broadsheet, Fraktur masthead (by festival), halftone canvas photo, funny local news, "{guest}'s edition" | `newsspin` | `spinout` | press | tap masthead: spin again |
+| Kaagaz (`kaagaz`, `kaagaz.tsx`) | paper-cut lightbox: 6 layers (glow/moon, paper fireworks+hills, town with cut windows, kandil strings, family, cusped jharokha front) | `lightbox` (pull cord; layers light back→front) | `dive` | papercut | pointer/tilt parallax; idle sway (frame-exact) |
+| Shubh TV (`shubh-tv`, `tv.tsx`) | 80s wooden TV in a Diwali living room; canvas screen: CRT power-on, static, roll; 3 channels (Diwali Special + ticker, Fireworks Live, Please stand by) | `tvon` (dispatches `tv-on`) | `crtoff` | tune | tap knob: change channel |
+
+Notes from chunk 3:
+- New fonts in layout.tsx: `--f-fraktur` (UnifrakturMaguntia), `--f-vt323`, `--f-oldstd` (Old Standard TT).
+- `mix()` in wedding/sig/util now accepts 3-digit hex (it silently produced wrong colours for "#fff" before).
+- Use `plainDate()` from lib/format.ts on covers, never `toLocaleDateString` with several fields: server/client ICU
+  differences caused a hydration error.
+- Canvas text needs the font's real family: read `--f-*` from computed style and `document.fonts.load()` first;
+  thumbnails must redraw after the fonts load (see tv.tsx onInit).
+
+Ideas not built yet (for later chunks): scratch-to-reveal greeting card, pop-up book, gramophone record.
 
 ### Later (parked by the user)
 - More regional batches (Art Deco, pookalam, Warli/Kalamkari, pattachitra, gamosa…), and regional-language headings.

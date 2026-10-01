@@ -28,6 +28,9 @@ import {
   Rozha_One,
   Tenor_Sans,
   Yeseva_One,
+  UnifrakturMaguntia,
+  VT323,
+  Old_Standard_TT,
 } from "next/font/google";
 import { GlobalDefs } from "@/components/card/ornaments";
 import { BIZ_TEXTURE_CSS } from "@/components/business/textures";
@@ -44,6 +47,7 @@ import "./biz-heritage.css";
 import "./biz-pro.css";
 import "./wedding.css";
 import "./signature.css";
+import "./festival.css";
 
 const cinzelDeco = Cinzel_Decorative({ subsets: ["latin"], weight: ["400", "700"], variable: "--f-cinzel-deco" });
 const cinzel = Cinzel({ subsets: ["latin"], variable: "--f-cinzel" });
@@ -73,9 +77,12 @@ const dmSerif = DM_Serif_Display({ subsets: ["latin"], weight: "400", style: ["n
 const archivo = Archivo({ subsets: ["latin"], weight: ["400", "500", "700", "800", "900"], variable: "--f-archivo" });
 const bodoni = Bodoni_Moda({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "500", "600"], variable: "--f-bodoni" });
 const specialElite = Special_Elite({ subsets: ["latin"], weight: "400", variable: "--f-special-elite" });
+const fraktur = UnifrakturMaguntia({ subsets: ["latin"], weight: "400", variable: "--f-fraktur" });
+const vt323 = VT323({ subsets: ["latin"], weight: "400", variable: "--f-vt323" });
+const oldStd = Old_Standard_TT({ subsets: ["latin"], weight: ["400", "700"], style: ["normal", "italic"], variable: "--f-oldstd" });
 const caveat = Caveat({ subsets: ["latin"], weight: ["500", "700"], variable: "--f-caveat" });
 
-const fontVars = [cinzelDeco, cinzel, cormorant, greatVibes, pinyon, playfair, marcellus, italiana, parisienne, deva, rozha, yeseva, tenor, inter, syne, manrope, michroma, fraunces, josefin, outfit, tiltNeon, space, yatra, dmSerif, archivo, bodoni, specialElite, caveat]
+const fontVars = [cinzelDeco, cinzel, cormorant, greatVibes, pinyon, playfair, marcellus, italiana, parisienne, deva, rozha, yeseva, tenor, inter, syne, manrope, michroma, fraunces, josefin, outfit, tiltNeon, space, yatra, dmSerif, archivo, bodoni, specialElite, caveat, fraktur, vt323, oldStd]
   .map((f) => f.variable)
   .concat(bizFontVars, scriptFontVars)
   .join(" ");

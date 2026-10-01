@@ -1,4 +1,7 @@
-export type Category = "wedding" | "engagement" | "griha-pravesh" | "shop-opening" | "business";
+export type Category = "wedding" | "engagement" | "griha-pravesh" | "shop-opening" | "business" | "festival";
+
+/** Which festival a greeting is for (presets live in lib/festival.ts). */
+export type FestivalKind = "dhanteras" | "diwali" | "nutanvarsh" | "bhaidooj" | "newyear";
 
 export type SymbolKind =
   | "ganesha"
@@ -115,6 +118,31 @@ export interface InviteData {
   story?: { enabled: boolean; title: string; text: string; photos: string[] };
   /** "Good to know": stay, travel, parking, gifts… */
   info?: { label: string; value: string }[];
+  /* ---- festival greetings ---- */
+  festival?: FestivalKind;
+  /** the greeting's personal message (shown on its own page) */
+  message?: string;
+  /** a business's logo, for corporate greetings */
+  logo?: string;
+  /** e.g. "Vikram Samvat 2083" or "2027" */
+  yearLabel?: string;
+  /** words before the family's name on a greeting: "from", "warm wishes from", "from our family to yours," */
+  fromPrefix?: string;
+  /** Cover Story: layout, photo treatment and the couple's own cover lines (blank = automatic) */
+  magazine?: {
+    layout?: "classic" | "minimal" | "block";
+    photo?: "natural" | "mono" | "duotone";
+    /** framing of the cover photo: focal point (0–100 %) and zoom (1–2.5) */
+    photoX?: number;
+    photoY?: number;
+    photoZoom?: number;
+    tag?: string;
+    headline?: string;
+    teaser?: string;
+    feature?: string;
+    inside?: string;
+    extra?: string;
+  };
   music: MusicKind;
   musicUrl?: string;
   effects: { petals: boolean };
@@ -250,11 +278,11 @@ export interface BizSpec {
 }
 
 /** How an invitation is revealed before the first page. */
-export type WedIntro = "envelope" | "doors" | "scroll" | "bloom" | "box" | "curtain" | "alpona" | "unfold" | "twirl" | "jaali" | "gatefold" | "pallu" | "veil" | "brush" | "popup" | "printer" | "warp" | "wiper" | "leader" | "paparazzi" | "mist" | "shake" | "mend" | "flock" | "unfoldmap" | "fireflies";
+export type WedIntro = "envelope" | "doors" | "scroll" | "bloom" | "box" | "curtain" | "alpona" | "unfold" | "twirl" | "jaali" | "gatefold" | "pallu" | "veil" | "brush" | "popup" | "printer" | "warp" | "wiper" | "leader" | "paparazzi" | "mist" | "shake" | "mend" | "flock" | "unfoldmap" | "fireflies" | "lightsup" | "drawrangoli" | "coinrain" | "kindle" | "tearoff" | "sparkwrite" | "fuse" | "unbox" | "aarti" | "switchon" | "release" | "ripple" | "boom" | "yantradraw" | "launchname" | "khata" | "inland" | "newsspin" | "lightbox" | "tvon";
 /** How an invitation moves from one page to the next. */
-export type WedTurn = "leaf" | "lift" | "rise" | "dissolve" | "stack" | "swipe" | "fan" | "flipdown" | "twirl" | "zoom" | "drop" | "diagonal" | "iris" | "wipe" | "turnover" | "edge" | "orbit" | "pour" | "reel" | "peel" | "frost" | "drift" | "crack" | "plane" | "pan" | "recede";
+export type WedTurn = "leaf" | "lift" | "rise" | "dissolve" | "stack" | "swipe" | "fan" | "flipdown" | "twirl" | "zoom" | "drop" | "diagonal" | "iris" | "wipe" | "turnover" | "edge" | "orbit" | "pour" | "reel" | "peel" | "frost" | "drift" | "crack" | "plane" | "pan" | "recede" | "launch" | "mandala" | "coin" | "snuff" | "tear" | "smoke" | "blast" | "cube" | "swing" | "dolly" | "glide" | "current" | "fallback" | "gilded" | "fizzle" | "flipup" | "fold" | "spinout" | "dive" | "crtoff";
 /** How a page's content arrives once it is on top. */
-export type WedReveal = "glow" | "stamp" | "bloom" | "type" | "float" | "sweep" | "drop" | "pop" | "spin" | "zoom" | "rise" | "blur" | "ink" | "slide" | "flap" | "twinkle" | "drip" | "credits" | "unveil" | "condense" | "flurry" | "gild" | "unfold" | "pin" | "glowin";
+export type WedReveal = "glow" | "stamp" | "bloom" | "type" | "float" | "sweep" | "drop" | "pop" | "spin" | "zoom" | "rise" | "blur" | "ink" | "slide" | "flap" | "twinkle" | "drip" | "credits" | "unveil" | "condense" | "flurry" | "gild" | "unfold" | "pin" | "glowin" | "spark" | "powder" | "gleam" | "kindle" | "dawn" | "write" | "crackle" | "sweet" | "bless" | "lights" | "warmth" | "wave" | "slap" | "radiate" | "sparkle" | "ledger" | "pen" | "press" | "papercut" | "tune";
 
 export interface WedSpec {
   /** key into the wedding design registry (components/wedding) */

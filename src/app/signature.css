@@ -2131,3 +2131,195 @@
   background: radial-gradient(circle, #fffbe0 0 15%, rgba(255, 215, 106, 0.85) 32%, transparent 70%);
   animation: hintpulse 0.9s ease-in-out infinite;
 }
+
+/* ---------- Cover Story layouts ---------- */
+.cs-photo.t-mono {
+  background-color: #777;
+}
+/* Minimal: quiet, airy, a framed image */
+.l-minimal .cs-dateline {
+  top: 26px;
+  justify-content: center;
+  gap: 20px;
+  border: none;
+  font-size: 8px;
+  color: var(--ink-soft);
+}
+.l-minimal .cs-mast {
+  top: 52px;
+  padding-left: 0.32em;
+  letter-spacing: 0.32em;
+  color: var(--ink);
+}
+.l-minimal .cs-frame {
+  position: absolute;
+  left: 74px;
+  right: 74px;
+  top: 118px;
+  height: 372px;
+  z-index: 4;
+  overflow: hidden;
+  background: var(--paper2);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ink) 22%, transparent),
+    0 14px 30px rgba(0, 0, 0, 0.12);
+}
+.l-minimal .cs-frame .cs-art {
+  top: 34px;
+  left: -9px;
+  transform: scale(0.74);
+  transform-origin: 0 0;
+}
+.l-minimal .cs-min-lines {
+  position: absolute;
+  left: 60px;
+  right: 60px;
+  top: 510px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.l-minimal .cs-tag {
+  align-self: center;
+}
+.l-minimal .cs-big {
+  font-size: 28px;
+}
+.l-minimal .cs-mid {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* Bold Block: a solid masthead band, full-bleed image, numbered lines */
+.l-block .cs-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 158px;
+  z-index: 5;
+  overflow: hidden;
+  background: var(--accent);
+}
+.l-block .cs-dateline {
+  top: 18px;
+  color: var(--paper);
+  border-color: color-mix(in srgb, var(--paper) 50%, transparent);
+}
+.l-block .cs-mast {
+  top: 40px;
+  left: 20px;
+  right: 20px;
+  text-align: left;
+  letter-spacing: -0.03em;
+  color: var(--paper);
+}
+.l-block .cs-bleed {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 158px;
+  bottom: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: var(--paper2);
+}
+.l-block .cs-bleed .cs-art {
+  top: 82px;
+}
+.l-block .cs-sticker {
+  position: absolute;
+  right: 26px;
+  top: 136px;
+  z-index: 7;
+  width: 94px;
+  height: 94px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transform: rotate(12deg);
+  background: var(--accent2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+.l-block .cs-sticker span {
+  padding: 8px;
+  text-align: center;
+  font-family: var(--fb);
+  font-weight: 800;
+  font-size: 12.5px;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.l-block .cs-numbered {
+  position: absolute;
+  left: 24px;
+  bottom: 68px;
+  z-index: 7;
+  max-width: 236px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.l-block .cs-numbered li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 6px;
+  align-items: baseline;
+  padding: 6px 10px 7px;
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+.l-block .cs-numbered i {
+  font-family: var(--fd);
+  font-style: normal;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--accent);
+}
+.l-block .cs-numbered b {
+  font-family: var(--fd);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.l-block .cs-numbered span {
+  font-family: var(--fb);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.l-block .cs-numbered li.plus {
+  display: block;
+  align-self: flex-start;
+  box-shadow: none;
+  background: var(--accent);
+  font-family: var(--fb);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.cs-photo {
+  overflow: hidden;
+}
+.cs-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

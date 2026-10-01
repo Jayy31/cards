@@ -13,8 +13,16 @@ export async function generateMetadata({ params, searchParams }: Params): Promis
   const r = await resolveCard({ card: id });
   if (!r) return { title: "Invitation" };
   const d = r.data;
-  const title = d.kind === "invite" ? `${d.eyebrow} · ${inviteTitle(d)}` : `${d.name} · ${d.company}`;
-  const description = d.kind === "invite" ? (q.to ? `Dear ${q.to}, you are cordially invited.` : "You are cordially invited. Tap to open your invitation.") : d.title;
+  const greeting = r.template.category === "festival";
+  const title = d.kind === "invite" ? (greeting ? `${d.eyebrow} from ${d.primary.name}` : `${d.eyebrow} · ${inviteTitle(d)}`) : `${d.name} · ${d.company}`;
+  const description =
+    d.kind !== "invite"
+      ? d.title
+      : greeting
+        ? `${q.to ? `Dear ${q.to}, ` : ""}${d.blessingLine || "Wishing you joy and light."} Tap to open your greeting.`
+        : q.to
+          ? `Dear ${q.to}, you are cordially invited.`
+          : "You are cordially invited. Tap to open your invitation.";
   const image = `/api/export?card=${id}&format=png&page=0&og=1`;
   return { title, description, openGraph: { title, description, images: [{ url: image, width: 1000, height: 1400 }] }, twitter: { card: "summary_large_image", title, description, images: [image] } };
 }

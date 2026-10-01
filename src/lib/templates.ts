@@ -3,6 +3,7 @@ import { engagementSample, grihaSample, shopSample, weddingSample } from "./samp
 import { BUSINESS_TEMPLATES } from "./businessTemplates";
 import { WEDDING_TEMPLATES } from "./weddingTemplates";
 import { SIGNATURE_TEMPLATES } from "./signatureTemplates";
+import { FESTIVAL_TEMPLATES } from "./festivalTemplates";
 
 const P = (p: Palette) => p;
 
@@ -119,6 +120,7 @@ export const TEMPLATES: Template[] = [
     effects: ["Envelope & wax seal", "Page turn", "Petals"],
     sample: grihaSample("turmeric"),
   },
+  ...FESTIVAL_TEMPLATES,
   ...SIGNATURE_TEMPLATES,
   ...WEDDING_TEMPLATES,
   ...BUSINESS_TEMPLATES,
@@ -134,6 +136,7 @@ export interface CategoryInfo {
 
 /** Every occasion we plan to cover. Live ones first, then what's coming next. */
 export const CATEGORIES: CategoryInfo[] = [
+  { id: "festival", label: "Festival Greetings", blurb: "Dhanteras, Diwali & New Year wishes, with an optional get-together" },
   { id: "business", label: "Business Cards", blurb: "Digital visiting cards with QR & save-contact" },
   { id: "wedding", label: "Wedding", blurb: "Multi-event wedding cards with every ritual" },
   { id: "engagement", label: "Engagement", blurb: "Ring ceremony & roka invitations" },
@@ -145,7 +148,6 @@ export const CATEGORIES: CategoryInfo[] = [
   { id: "naming", label: "Naamkaran", blurb: "Naming & cradle ceremonies", soon: true },
   { id: "upanayan", label: "Janeu / Upanayan", blurb: "Sacred thread ceremony", soon: true },
   { id: "puja", label: "Puja & Katha", blurb: "Satyanarayan katha, jagran, havan", soon: true },
-  { id: "festival", label: "Festival Greetings", blurb: "Diwali, Eid, Christmas, Navratri", soon: true },
   { id: "corporate", label: "Corporate Events", blurb: "Launches, conferences, annual days", soon: true },
 ];
 

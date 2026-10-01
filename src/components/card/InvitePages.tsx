@@ -24,19 +24,21 @@ import {
   Toran,
 } from "./ornaments";
 import { coupleOrder } from "@/lib/wedding";
+import { festival } from "@/lib/festival";
 import { WED_DESIGNS as WD1 } from "@/components/wedding/designs";
 import { WED_DESIGNS_2 } from "@/components/wedding/designs2";
 import { WED_DESIGNS_3 } from "@/components/wedding/designs3";
 
 import { SIGNATURE_DESIGNS } from "@/components/wedding/sig";
+import { FESTIVAL_DESIGNS } from "@/components/festival";
 
 // built on first use, so modules that import this one (a cycle) are fully loaded by then
 let registry: Record<string, import("@/components/wedding/designs").WedDesign> | null = null;
 const WED_DESIGNS = new Proxy({} as Record<string, import("@/components/wedding/designs").WedDesign>, {
-  get: (_t, k: string) => (registry ??= { ...WD1, ...WED_DESIGNS_2, ...WED_DESIGNS_3, ...SIGNATURE_DESIGNS })[k],
+  get: (_t, k: string) => (registry ??= { ...WD1, ...WED_DESIGNS_2, ...WED_DESIGNS_3, ...SIGNATURE_DESIGNS, ...FESTIVAL_DESIGNS })[k],
 });
 
-export type PageKind = "cover" | "names" | "story" | "events" | "family" | "venue" | "info" | "closing";
+export type PageKind = "cover" | "names" | "message" | "story" | "events" | "family" | "venue" | "info" | "closing";
 
 export interface PageSpec {
   key: string;
@@ -50,6 +52,18 @@ const EVENTS_PER_PAGE = 3;
 /** Turns data into the ordered list of physical pages of the booklet. */
 export function buildPages(t: Template, d: InviteData): PageSpec[] {
   const pages: PageSpec[] = [{ key: "cover", kind: "cover", label: "Cover" }];
+  if (t.category === "festival") {
+    // a greeting: cover, the message, an optional celebration, family, sign-off
+    pages.push({ key: "message", kind: "message", label: "Message" });
+    const evs = d.events;
+    for (let i = 0; i < Math.ceil(evs.length / EVENTS_PER_PAGE); i++) {
+      pages.push({ key: `events-${i}`, kind: "events", label: i ? "Celebration (cont.)" : "Celebration", events: evs.slice(i * EVENTS_PER_PAGE, (i + 1) * EVENTS_PER_PAGE) });
+    }
+    if (evs.length) pages.push({ key: "venue", kind: "venue", label: "Venue & RSVP" });
+    if (d.family.enabled && (d.family.names.length || d.family.kids.length)) pages.push({ key: "family", kind: "family", label: "Family" });
+    pages.push({ key: "closing", kind: "closing", label: "Wishes" });
+    return pages;
+  }
   pages.push({ key: "names", kind: "names", label: d.secondary?.name ? "Couple" : "Invitation" });
   if (hasStory(d)) pages.push({ key: "story", kind: "story", label: d.story!.title || "Our Story" });
   const evs = d.events;
@@ -339,7 +353,7 @@ function Events({ d, t, p, events, first }: { d: InviteData; t: Template; p: Pal
   const fill = foilFill(p);
   return (
     <div className={`page-content events ${events.length <= 2 ? "few" : ""}`}>
-      <div className="page-eyebrow">{first ? (d.secondary?.name ? "The Celebrations" : "Programme") : "Celebrations Continue"}</div>
+      <div className="page-eyebrow">{first ? (t.category === "festival" ? "Celebrate With Us" : d.secondary?.name ? "The Celebrations" : "Programme") : "Celebrations Continue"}</div>
       <Divider fill={fill} width={180} kind="lotus" />
       <div className={`event-list n${events.length}`}>
         {events.map((e) => (
@@ -541,6 +555,34 @@ function Info({ d, p }: { d: InviteData; p: Palette }) {
   );
 }
 
+/** A greeting's message page: wish, photo or logo, the note, and who it's from. */
+function Message({ d, p }: { d: InviteData; p: Palette }) {
+  const fill = foilFill(p);
+  const now = useNow(60000);
+  const days = Math.ceil((parseLocal(d.mainDateTime).getTime() - now) / 86400000);
+  const fest = festival(d.festival);
+  return (
+    <div className="page-content message">
+      {d.logo && <div className="msg-logo" style={{ backgroundImage: `url(${JSON.stringify(d.logo)})` }} />}
+      <div className="page-eyebrow">{d.eyebrow}</div>
+      <Divider fill={fill} width={170} kind="lotus" />
+      {d.blessingLine && <p className="msg-wish">{d.blessingLine}</p>}
+      {d.photo && <Photo src={d.photo} />}
+      {d.message && <p className={`msg-text ${d.photo ? "with-photo" : ""}`}>{d.message}</p>}
+      <div className="msg-from">
+        <span>{d.closing.title || "With love"},</span>
+        <b className="foil-text">{d.primary.name}</b>
+        {d.primary.subtitle && <em>{d.primary.subtitle}</em>}
+      </div>
+      {days > 0 && days < 120 && (
+        <div className="msg-count" suppressHydrationWarning>
+          {fest.label.replace(/ \(.*\)$/, "")} is {days} {days === 1 ? "day" : "days"} away
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Closing({ d, t, p }: { d: InviteData; t: Template; p: Palette }) {
   const fill = foilFill(p);
   return (
@@ -555,7 +597,7 @@ function Closing({ d, t, p }: { d: InviteData; t: Template; p: Palette }) {
           </div>
         ))}
       </div>
-      <p className="closing-note">Your presence and blessings will make the occasion complete.</p>
+      <p className="closing-note">{t.category === "festival" ? d.blessingLine || "Wishing you and your loved ones joy and light." : "Your presence and blessings will make the occasion complete."}</p>
     </div>
   );
 }
@@ -583,6 +625,9 @@ export function InvitePage({ spec, d, t, p, index }: { spec: PageSpec; d: Invite
       break;
     case "story":
       body = <Story d={d} p={p} />;
+      break;
+    case "message":
+      body = <Message d={d} p={p} />;
       break;
     case "info":
       body = <Info d={d} p={p} />;

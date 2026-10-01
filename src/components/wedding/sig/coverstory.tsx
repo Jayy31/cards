@@ -64,51 +64,170 @@ function Profiles({ p }: { p: Palette }) {
   );
 }
 
+const hexRgb = (h: string) => {
+  const n = parseInt(h.slice(1), 16);
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255].map((v) => Math.round(v * 1000) / 1000);
+};
+const lum = (h: string) => {
+  const [r, g, b] = hexRgb(h);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+/** Duotone: the photo's tones remapped from the palette's darkest ink to its light accent. */
+function DuotoneFilter({ id, p }: { id: string; p: Palette }) {
+  const dark = lum(p.ink) < lum(p.paper) ? p.ink : p.paper;
+  const light = lum(p.accent2) > lum(p.accent) ? p.accent2 : p.accent;
+  const [r1, g1, b1] = hexRgb(dark);
+  const [r2, g2, b2] = hexRgb(light);
+  return (
+    <svg width={0} height={0} style={{ position: "absolute" }} aria-hidden>
+      <filter id={id} colorInterpolationFilters="sRGB">
+        <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" />
+        <feComponentTransfer>
+          <feFuncR type="table" tableValues={`${r1} ${r2}`} />
+          <feFuncG type="table" tableValues={`${g1} ${g2}`} />
+          <feFuncB type="table" tableValues={`${b1} ${b2}`} />
+        </feComponentTransfer>
+      </filter>
+    </svg>
+  );
+}
+
+/** The couple's photo, framed by their chosen focal point and zoom. */
+export function CoverPhoto({ src, m, filter }: { src: string; m?: InviteData["magazine"]; filter?: string }) {
+  const x = m?.photoX ?? 50;
+  const y = m?.photoY ?? 35;
+  const z = m?.photoZoom ?? 1;
+  return (
+    <div className="cs-photo">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" draggable={false} style={{ objectPosition: `${x}% ${y}%`, transform: z !== 1 ? `scale(${z})` : undefined, transformOrigin: `${x}% ${y}%`, filter }} />
+    </div>
+  );
+}
+
+/** Cover lines: the couple's own words, or automatic ones built from their events. */
+function coverLines(d: InviteData) {
+  const [a, b] = coupleOrder(d);
+  const m = d.magazine ?? {};
+  const days = new Set(d.events.map((e) => e.date)).size;
+  const auto = {
+    tag: "Exclusive",
+    headline: "The Wedding of the Year",
+    teaser: `${d.events.length} ${d.events.length === 1 ? "celebration" : "celebrations"} · ${days} ${days === 1 ? "day" : "days"} of love`,
+    feature: `${a.name}${b?.name ? ` & ${b.name}` : ""} on love, family & forever`,
+    inside: `Inside: ${d.events.map((e) => e.name).slice(0, 4).join(" · ")}`,
+    extra: "+ RSVP inside",
+  };
+  const pick = (k: keyof typeof auto) => (m[k]?.trim() ? m[k]!.trim() : auto[k]);
+  return { tag: pick("tag"), headline: pick("headline"), teaser: pick("teaser"), feature: pick("feature"), inside: pick("inside"), extra: pick("extra"), auto };
+}
+
+export const coverLineDefaults = (d: InviteData) => coverLines(d).auto;
+
 function Cover({ d, p }: { d: InviteData; p: Palette }) {
   const env = useCardEnv();
   const [a, b] = coupleOrder(d);
   const [y, m, dd] = d.mainDateTime.split("T")[0].split("-");
+  const layout = d.magazine?.layout ?? "classic";
+  const treat = d.magazine?.photo ?? "natural";
+  const L = coverLines(d);
+  const duoId = `cs-duo-${p.id}`;
   const mast = b?.name ? `${a.name}&${b.name}` : a.name;
-  const size = Math.min(92, Math.round(470 / (mast.length * 0.6)));
-  const days = new Set(d.events.map((e) => e.date)).size;
-  const names = d.events.map((e) => e.name).slice(0, 4).join(" · ");
-  return (
-    <div className="page-content cover wd-cover cs-cover">
-      <div className="cs-dateline">
-        <span>The Wedding Issue</span>
-        <span>
-          {MONTHS[Number(m) - 1]} {y}
-        </span>
-        <span>No. 01</span>
+  const fit = (max: number, width: number, k: number) => Math.min(max, Math.round(width / (mast.length * k)));
+  const image = d.photo ? <CoverPhoto src={d.photo} m={d.magazine} filter={treat === "mono" ? "grayscale(1) contrast(1.18) brightness(1.03)" : treat === "duotone" ? `url(#${duoId})` : undefined} /> : <Profiles p={p} />;
+  const dateline = (
+    <div className="cs-dateline">
+      <span>The Wedding Issue</span>
+      <span>
+        {MONTHS[Number(m) - 1]} {y}
+      </span>
+      <span>No. 01</span>
+    </div>
+  );
+  const foot = (
+    <div className="cs-foot">
+      <span className="cs-price">{env.guest ? `For ${env.guest}` : "Priceless"}</span>
+      <div className="cs-barcode">
+        <Barcode width={84} height={28} color="#111" seed={Number(dd) * 31 + Number(m)} />
+        <small>
+          {dd}·{m}·{y.slice(2)}
+        </small>
       </div>
-      <h1 className="cs-mast" style={{ fontSize: size }}>
+    </div>
+  );
+
+  if (layout === "minimal")
+    return (
+      <div className={`page-content cover wd-cover cs-cover l-minimal ${d.photo ? "has-photo" : ""}`}>
+        {treat === "duotone" && <DuotoneFilter id={duoId} p={p} />}
+        {dateline}
+        <h1 className="cs-mast" style={{ fontSize: fit(44, 820, 1) }}>
+          {mast.toUpperCase()}
+        </h1>
+        <div className="cs-frame">{image}</div>
+        <div className="cs-min-lines">
+          <span className="cs-tag">{L.tag}</span>
+          <b className="cs-big">{L.headline}</b>
+          <span className="cs-small">{L.teaser}</span>
+          <span className="cs-mid">{L.feature}</span>
+        </div>
+        {foot}
+      </div>
+    );
+
+  if (layout === "block")
+    return (
+      <div className={`page-content cover wd-cover cs-cover l-block ${d.photo ? "has-photo" : ""}`}>
+        {treat === "duotone" && <DuotoneFilter id={duoId} p={p} />}
+        <div className="cs-band">
+          {dateline}
+          <h1 className="cs-mast" style={{ fontSize: fit(104, 460, 0.7) }}>
+            {mast.toUpperCase()}
+          </h1>
+        </div>
+        <div className="cs-bleed">{image}</div>
+        <div className="cs-sticker">
+          <span>{L.tag}</span>
+        </div>
+        <ol className="cs-numbered">
+          <li>
+            <i>01</i>
+            <b>{L.headline}</b>
+          </li>
+          <li>
+            <i>02</i>
+            <span>{L.teaser}</span>
+          </li>
+          <li>
+            <i>03</i>
+            <span>{L.feature}</span>
+          </li>
+          <li className="plus">{L.extra}</li>
+        </ol>
+        {foot}
+      </div>
+    );
+
+  return (
+    <div className={`page-content cover wd-cover cs-cover l-classic ${d.photo ? "has-photo" : ""}`}>
+      {treat === "duotone" && <DuotoneFilter id={duoId} p={p} />}
+      {dateline}
+      <h1 className="cs-mast" style={{ fontSize: fit(92, 470, 0.6) }}>
         {mast.toUpperCase()}
       </h1>
-      {d.photo ? <div className="cs-photo" style={{ backgroundImage: `url(${JSON.stringify(d.photo)})` }} /> : <Profiles p={p} />}
+      {image}
       <div className="cs-lines left">
-        <span className="cs-tag">Exclusive</span>
-        <b className="cs-big">The Wedding of the Year</b>
-        <span className="cs-small">
-          {d.events.length} celebrations · {days} {days === 1 ? "day" : "days"} of love
-        </span>
+        <span className="cs-tag">{L.tag}</span>
+        <b className="cs-big">{L.headline}</b>
+        <span className="cs-small">{L.teaser}</span>
       </div>
       <div className="cs-lines right">
-        <b className="cs-mid">
-          {a.name}
-          {b?.name ? ` & ${b.name}` : ""} on love, family &amp; forever
-        </b>
-        <span className="cs-small">Inside: {names}</span>
-        <span className="cs-plus">+ RSVP inside</span>
+        <b className="cs-mid">{L.feature}</b>
+        <span className="cs-small">{L.inside}</span>
+        <span className="cs-plus">{L.extra}</span>
       </div>
-      <div className="cs-foot">
-        <span className="cs-price">{env.guest ? `For ${env.guest}` : "Priceless"}</span>
-        <div className="cs-barcode">
-          <Barcode width={84} height={28} color="#111" seed={Number(dd) * 31 + Number(m)} />
-          <small>
-            {dd}·{m}·{y.slice(2)}
-          </small>
-        </div>
-      </div>
+      {foot}
     </div>
   );
 }

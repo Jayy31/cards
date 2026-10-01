@@ -56,6 +56,26 @@ const REVEALS: Record<WedReveal, gsap.TweenVars> = {
   unfold: { opacity: 0, rotateY: -90, transformOrigin: "0% 50%", transformPerspective: 700, duration: 0.6, stagger: 0.06, ease: "power3.out" },
   pin: { opacity: 0, scale: 0.6, y: -24, duration: 0.6, stagger: 0.06, ease: "back.out(2.5)" },
   glowin: { opacity: 0, filter: "drop-shadow(0 0 14px rgba(255,215,106,0.9)) brightness(1.7)", duration: 1, stagger: 0.08, ease: "power2.out" },
+  spark: { opacity: 0, scale: 0.88, filter: "brightness(3)", duration: 0.55, stagger: 0.05, ease: "power3.out" },
+  powder: { opacity: 0, scale: 1.04, filter: "blur(5px) saturate(2)", duration: 0.8, stagger: 0.06, ease: "power2.out" },
+  gleam: { opacity: 0, y: 6, filter: "brightness(2.2) sepia(0.6)", duration: 0.8, stagger: 0.06, ease: "power2.out" },
+  kindle: { opacity: 0, filter: "brightness(0.3) sepia(1)", duration: 1, stagger: 0.08, ease: "power2.out" },
+  dawn: { opacity: 0, y: 10, filter: "brightness(0.6) saturate(0.6)", duration: 0.9, stagger: 0.07, ease: "power2.out" },
+  write: { clipPath: "inset(-10% 100% -10% 0%)", filter: "brightness(1.8)", duration: 0.7, stagger: 0.09, ease: "power1.inOut" },
+  crackle: { opacity: 0, scale: 0.94, duration: 0.4, stagger: 0.05, ease: "steps(4)" },
+  sweet: { opacity: 0, y: -12, scale: 0.9, duration: 0.7, stagger: 0.06, ease: "elastic.out(1, 0.6)" },
+  bless: { opacity: 0, y: -8, filter: "brightness(1.6) sepia(0.4)", duration: 0.8, stagger: 0.07, ease: "power2.out" },
+  lights: { opacity: 0, filter: "brightness(2.5)", duration: 0.45, stagger: 0.05, ease: "steps(3)" },
+  warmth: { opacity: 0, y: 14, scale: 0.97, filter: "brightness(1.8) sepia(0.5)", duration: 0.9, stagger: 0.07, ease: "power2.out" },
+  wave: { opacity: 0, scaleY: 0.6, filter: "blur(2px)", duration: 0.7, stagger: 0.06, ease: "sine.out" },
+  slap: { opacity: 0, scale: 1.6, rotate: -8, duration: 0.35, stagger: 0.05, ease: "back.out(1.4)" },
+  radiate: { opacity: 0, scale: 0.8, filter: "drop-shadow(0 0 18px rgba(255,210,120,0.9))", duration: 0.8, stagger: 0.07, ease: "power3.out" },
+  ledger: { clipPath: "inset(-10% 100% -10% 0%)", duration: 0.9, stagger: 0.12, ease: "power1.inOut" },
+  pen: { clipPath: "inset(-10% 100% -10% 0%)", filter: "blur(1.5px)", duration: 0.8, stagger: 0.1, ease: "power1.inOut" },
+  press: { opacity: 0, scale: 1.05, filter: "blur(4px)", duration: 0.5, stagger: 0.07, ease: "power2.out" },
+  papercut: { opacity: 0, y: 18, scale: 0.94, duration: 0.6, stagger: 0.08, ease: "back.out(1.6)" },
+  tune: { opacity: 0, scaleY: 0.05, filter: "brightness(3)", duration: 0.45, stagger: 0.06, ease: "power3.out" },
+  sparkle: { opacity: 0, duration: 0.5, stagger: { each: 0.06, from: "random" }, ease: "steps(5)" },
 };
 
 const ease = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
@@ -244,7 +264,7 @@ export default function InviteViewer({ templateId, data, cardId, guest, mode = "
     const n = specs.length;
     const seek = (time: number) => {
       window.__cardTime = time;
-      tlRef.current?.seek(Math.min(time, tlRef.current.duration()), true);
+      tlRef.current?.seek(Math.min(time, tlRef.current.duration()), false);
       for (let k = 0; k < n - 1; k++) {
         const s = intro.end + HOLD_COVER + k * (FLIP + HOLD);
         bookRef.current?.setProgress(k, ease(Math.max(0, Math.min(1, (time - s) / FLIP))));
@@ -293,7 +313,7 @@ export default function InviteViewer({ templateId, data, cardId, guest, mode = "
     const v = REVEALS[reveal];
     const clear = "opacity,transform,transformOrigin,filter,letterSpacing,clipPath";
     // a clip has no "from nothing" value, so sweep is tweened explicitly
-    const tw = v.clipPath ? gsap.fromTo(items, { clipPath: v.clipPath }, { clipPath: "inset(0% 0% 0% 0%)", duration: v.duration, stagger: v.stagger, ease: v.ease, delay: 0.2, clearProps: clear }) : gsap.from(items, { ...v, delay: 0.2, clearProps: clear });
+    const tw = v.clipPath ? gsap.fromTo(items, { clipPath: v.clipPath, ...(v.filter ? { filter: v.filter } : {}) }, { clipPath: "inset(-10% 0% -10% 0%)", ...(v.filter ? { filter: "brightness(1)" } : {}), duration: v.duration, stagger: v.stagger, ease: v.ease, delay: 0.2, clearProps: clear }) : gsap.from(items, { ...v, delay: 0.2, clearProps: clear });
     return () => {
       tw.progress(1).kill();
     };
@@ -381,9 +401,11 @@ export default function InviteViewer({ templateId, data, cardId, guest, mode = "
                 <Icon name={music.playing ? "music" : "mute"} />
               </button>
             )}
-            <button onClick={saveDate} aria-label="Save the date">
-              <Icon name="calendar" />
-            </button>
+            {data.events.length > 0 && (
+              <button onClick={saveDate} aria-label="Save the date">
+                <Icon name="calendar" />
+              </button>
+            )}
             {data.rsvp.enabled && (
               <button className="bar-rsvp" onClick={() => setRsvpOpen(true)}>
                 RSVP

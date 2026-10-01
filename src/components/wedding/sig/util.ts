@@ -1,7 +1,8 @@
 /** Mix two #rrggbb colours (t = 0 → a, 1 → b). Deterministic, so safe for server markup. */
 export function mix(a: string, b: string, t: number) {
-  const pa = parseInt(a.slice(1), 16);
-  const pb = parseInt(b.slice(1), 16);
+  const hex = (h: string) => (h.length === 4 ? h.slice(1).replace(/./g, (x) => x + x) : h.slice(1));
+  const pa = parseInt(hex(a), 16);
+  const pb = parseInt(hex(b), 16);
   const ch = (s: number) => [(s >> 16) & 255, (s >> 8) & 255, s & 255];
   const [r1, g1, b1] = ch(pa);
   const [r2, g2, b2] = ch(pb);

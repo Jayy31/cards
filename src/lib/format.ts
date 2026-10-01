@@ -141,3 +141,14 @@ const R9 = (n: number) => Math.round(n * 1e9) / 1e9;
 export const cos = (a: number) => R9(Math.cos(a));
 export const sin = (a: number) => R9(Math.sin(a));
 export const atan2 = (y: number, x: number) => R9(Math.atan2(y, x));
+
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/** Locale-free date pieces (identical on server and client, so no hydration drift). */
+export function plainDate(dt: string) {
+  const d = parseLocal(dt || "");
+  if (isNaN(+d)) return null;
+  const month = MONTHS[d.getMonth()];
+  return { weekday: WEEKDAYS[d.getDay()], day: d.getDate(), month, mon: month.slice(0, 3), mm: d.getMonth() + 1, year: d.getFullYear() };
+}

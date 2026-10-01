@@ -149,6 +149,90 @@ const Book = forwardRef<BookHandle, Props>(function Book({ pages, back, index, o
           tf = `translateZ(${-p * 700}px) translateY(${-p * 60}px)`;
           op = 1 - p;
           break;
+        case "launch": // shoots up like a skyrocket, brightening as it goes
+          tf = `translateY(${-p * p * 1150}px) scaleX(${1 - p * 0.25}) scaleY(${1 + p * 0.2})`;
+          filter = `brightness(${(1 + p * 1.5).toFixed(2)})`;
+          op = 1 - p * p;
+          break;
+        case "mandala": // spins inward and closes like a rangoli circle
+          tf = `rotate(${p * 140}deg) scale(${1 - p * 0.35})`;
+          clip = `circle(${((1 - p) * 76).toFixed(2)}% at 50% 50%)`;
+          break;
+        case "coin": // spins away like a tossed gold coin
+          tf = `translateY(${p * 220}px) rotateY(${p * 540}deg) scale(${1 - p * 0.6})`;
+          op = 1 - p * p * p;
+          break;
+        case "snuff": // the light goes out on this page
+          filter = `brightness(${(1 - p * 0.92).toFixed(2)})`;
+          op = 1 - Math.max(0, (p - 0.7) / 0.3);
+          break;
+        case "tear": // torn off the pad and dropped
+          tf = `translate(${-p * 60}px, ${p * p * 920}px) rotate(${-p * 28}deg)`;
+          break;
+        case "smoke": // dissolves into drifting cracker smoke
+          tf = `translateY(${-p * 60}px) scale(${1 + p * 0.05})`;
+          filter = `blur(${(p * 9).toFixed(2)}px) grayscale(${p.toFixed(2)}) brightness(${(1 - p * 0.35).toFixed(2)})`;
+          op = 1 - p;
+          break;
+        case "blast": // a bang: it swells, flares white and is gone
+          tf = `scale(${1 + p * 0.45}) rotate(${Math.sin(p * 40) * (1 - p) * 2}deg)`;
+          filter = `brightness(${(1 + p * 3).toFixed(2)})`;
+          op = 1 - p * p;
+          break;
+        case "cube": // turns away like the face of a box
+          tf = `rotateY(${-90 * p}deg)`;
+          break;
+        case "swing": // swept round in an aarti arc
+          tf = `rotate(${-p * 38}deg)`;
+          op = 1 - p * 0.8;
+          break;
+        case "dolly": // the camera glides past it
+          tf = `translateX(${-p * 280}px) translateZ(${-p * 420}px) rotateY(${p * 32}deg)`;
+          op = 1 - p;
+          break;
+        case "glide": // drifts up and away like a released lantern
+          tf = `translate(${p * 240}px, ${-p * 640}px) rotate(${p * 9}deg) scale(${1 - p * 0.5})`;
+          filter = `brightness(${(1 + p * 0.8).toFixed(2)})`;
+          op = 1 - p * p;
+          break;
+        case "current": // carried off downstream, rippling
+          tf = `translateX(${p * 560}px) skewY(${(Math.sin(p * 12) * 3 * (1 - p)).toFixed(2)}deg)`;
+          op = 1 - p * 0.5;
+          break;
+        case "flipup": // a top-bound ledger page lifted over the binding
+          tf = `rotateX(${p * 100}deg)`;
+          op = 1 - Math.max(0, (p - 0.6) / 0.4);
+          break;
+        case "fold": // folded in three and slipped away like a letter
+          tf = p < 0.5 ? `scaleY(${(1 - p * 1.3).toFixed(3)})` : `translateY(${((p - 0.5) * 2 * 900).toFixed(1)}px) rotate(${((p - 0.5) * 8).toFixed(2)}deg) scaleY(0.35)`;
+          filter = `brightness(${(1 - Math.min(p, 0.5) * 0.4).toFixed(2)})`;
+          break;
+        case "spinout": // spins away like a newspaper in an old film
+          tf = `rotate(${(p * p * 900).toFixed(1)}deg) scale(${(1 - p * 0.96).toFixed(3)})`;
+          op = 1 - Math.max(0, (p - 0.75) / 0.25);
+          break;
+        case "dive": // we fly through the lightbox, into the light
+          tf = `scale(${(1 + p * p * 1.6).toFixed(3)})`;
+          filter = `brightness(${(1 + p * 1.2).toFixed(2)})`;
+          op = 1 - Math.max(0, (p - 0.35) / 0.65);
+          break;
+        case "crtoff": // the old set switches off: squeezed to a line, then a dot
+          tf = p < 0.55 ? `scaleY(${(1 - (p / 0.55) * 0.992).toFixed(4)})` : `scale(${(1 - (p - 0.55) / 0.45).toFixed(4)}, 0.008)`;
+          filter = `brightness(${(1 + p * 2.5).toFixed(2)})`;
+          break;
+        case "fallback": // topples forward off the table like a cracker box
+          tf = `rotateX(${-p * 96}deg)`;
+          op = 1 - Math.max(0, (p - 0.75) / 0.25);
+          break;
+        case "gilded": // turns to gold and melts away
+          tf = `scale(${1 - p * 0.12})`;
+          filter = `sepia(${p.toFixed(2)}) saturate(${(1 + p * 2).toFixed(2)}) brightness(${(1 + p * 0.6).toFixed(2)})`;
+          op = 1 - p;
+          break;
+        case "fizzle": // flickers out like a spent firework
+          tf = `scale(${1 - p * 0.06})`;
+          op = p < 0.85 ? (Math.floor(p * 14) % 2 ? 0.35 : 1 - p * 0.5) : (1 - p) / 0.15 * 0.5;
+          break;
         case "frost": // mists over, then fades
           tf = `scale(${1 + p * 0.03})`;
           filter = `blur(${(p * 7).toFixed(2)}px) brightness(${(1 + p * 0.7).toFixed(2)})`;
@@ -161,7 +245,7 @@ const Book = forwardRef<BookHandle, Props>(function Book({ pages, back, index, o
       el.style.clipPath = p > 0 && p < 1 ? clip : p >= 1 && clip ? "inset(50%)" : "";
       el.style.zIndex = String(turning ? 500 : p >= 1 ? 100 + i : n - i);
       const front = el.querySelector<HTMLElement>(".leaf-shade-front");
-      if (front) front.style.opacity = turn === "dissolve" || turn === "zoom" || turn === "twirl" || turn === "iris" || turn === "wipe" || turn === "frost" || turn === "orbit" || turn === "reel" || turn === "crack" || turn === "recede" ? "0" : String((1 - k) * 4 + arc * 0.25);
+      if (front) front.style.opacity = turn === "dissolve" || turn === "zoom" || turn === "twirl" || turn === "iris" || turn === "wipe" || turn === "frost" || turn === "orbit" || turn === "reel" || turn === "crack" || turn === "recede" || turn === "launch" || turn === "mandala" || turn === "snuff" || turn === "smoke" || turn === "blast" || turn === "gilded" || turn === "fizzle" || turn === "glide" || turn === "fold" || turn === "spinout" || turn === "dive" || turn === "crtoff" ? "0" : String((1 - k) * 4 + arc * 0.25);
     },
     [n, turn],
   );
