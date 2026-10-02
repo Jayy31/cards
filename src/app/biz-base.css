@@ -1,0 +1,458 @@
+/* ==========================================================================
+   Business cards: shared building blocks (components/business/parts.tsx)
+   Standard back (.sb), front extras (.fm), logo/photo slots, dense contacts.
+   Each design restyles these under .bz-<design>.
+   ========================================================================== */
+
+/* ---------- user content ---------- */
+.biz-logo-up {
+  background: center / contain no-repeat;
+  width: 130px;
+  height: 72px;
+  flex: none;
+}
+.biz-photo {
+  position: relative;
+  overflow: hidden;
+  background: center / cover no-repeat;
+}
+.biz-photo svg {
+  display: block;
+}
+.biz-local {
+  font-family: var(--fd), var(--f-noto-deva), var(--f-noto-guj), var(--f-deva), sans-serif;
+  font-size: 0.55em;
+  font-weight: 600;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+:is(.biz-name, .holo-name, .metal-name, .wood-name, .acr-name, .neon-name, .blk-name, .lay-name, .sw-name, .kr-name) + .biz-local {
+  font-size: 17px;
+  color: var(--ink-soft);
+}
+.biz-xl {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+  min-width: 15px;
+  flex: none;
+  opacity: 0.8;
+  color: var(--accent);
+}
+.biz-soc {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 4px 14px !important;
+}
+.biz-soc span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.biz-soc .biz-icon {
+  margin-top: 0 !important;
+}
+/* contacts tighten as lines are added */
+.dense {
+  gap: 5px !important;
+  font-size: 12.5px !important;
+}
+.dense.xdense {
+  gap: 3px !important;
+  font-size: 11.5px !important;
+}
+.dense .biz-icon {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+/* ---------- optional front extras (.fm) ---------- */
+.fm {
+  position: absolute;
+  right: 34px;
+  bottom: 28px;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  text-align: right;
+  color: var(--ink);
+  font-family: var(--fb);
+}
+.fm-name {
+  font: 600 15px/1.2 var(--fd);
+}
+.fm-title {
+  margin-top: 2px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.fm-contact {
+  margin-top: 5px;
+  font-size: 11px;
+  opacity: 0.85;
+}
+.fm-qr {
+  width: 66px;
+  height: 66px;
+  padding: 4px;
+  flex: none;
+  background: #fff;
+  border-radius: 6px;
+}
+.fm-qr svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.fm.fm-left {
+  left: 34px;
+  right: auto;
+  text-align: left;
+  flex-direction: row-reverse;
+}
+.fm.fm-light {
+  color: #fff;
+}
+.fm.fm-inline {
+  position: static;
+  justify-content: flex-start;
+  text-align: left;
+  flex-direction: row-reverse;
+  margin-top: 8px;
+}
+.fm.fm-center {
+  left: 0;
+  right: 0;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- standard back (.sb) ---------- */
+.sb {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  padding: 44px 50px;
+  color: var(--ink);
+}
+.shape-portrait .sb {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 56px 40px 48px;
+  gap: 26px;
+}
+.shape-square .sb {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 44px 46px;
+  gap: 20px;
+}
+.sb-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.shape-portrait .sb-main,
+.shape-square .sb-main {
+  flex: none;
+}
+.sb-name {
+  font: 600 34px/1.08 var(--fd);
+}
+.sb-local {
+  margin-top: 4px;
+  font: 600 17px var(--fd), var(--f-noto-deva), var(--f-noto-guj), sans-serif;
+  color: var(--ink-soft);
+}
+.sb-title {
+  margin-top: 8px;
+  font: 600 12px var(--fb);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.sb-rule {
+  width: 48px;
+  height: 2px;
+  margin: 16px 0;
+  background: var(--accent);
+}
+.sb-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font: 500 14px var(--fb);
+}
+.sb-contacts > div {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.3;
+}
+.sb-contacts .biz-icon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--accent);
+}
+.sb-side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.shape-portrait .sb-side,
+.shape-square .sb-side {
+  flex-direction: row;
+  align-self: flex-start;
+  gap: 14px;
+}
+.sb-qr {
+  width: 140px;
+  height: 140px;
+  padding: 9px;
+  background: #fff;
+  border-radius: 10px;
+}
+.shape-portrait .sb-qr {
+  width: 118px;
+  height: 118px;
+}
+.shape-square .sb-qr {
+  width: 104px;
+  height: 104px;
+}
+.sb-qr svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.sb-qr-label {
+  font: 600 10px var(--fb);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.shape-portrait .sb-qr-label,
+.shape-square .sb-qr-label {
+  align-self: center;
+  max-width: 120px;
+}
+
+/* shared layers many designs use */
+.bz-fill {
+  position: absolute;
+  inset: 0;
+}
+.bz-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.bz-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: var(--tex-grain-dark);
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+.is-dark .bz-grain {
+  background-image: var(--tex-grain-light);
+  opacity: 0.06;
+  mix-blend-mode: normal;
+}
+.bz-sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(circle at calc(var(--lx, 0.3) * 100%) calc(var(--ly, 0.25) * 100%), rgba(255, 255, 255, 0.2), transparent 45%);
+  mix-blend-mode: soft-light;
+}
+
+/* stage for portrait / square cards */
+.bzshape-portrait .biz-hint,
+.bzshape-square .biz-hint {
+  margin-top: -6px;
+}
+
+/* fine print grain over flat-coloured stocks */
+:is(.bz-warli, .bz-bandhani, .bz-ajrakh, .bz-kolam, .bz-fitness, .bz-chalk, .bz-terrazzo)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image: var(--tex-grain-light);
+  background-size: 160px;
+  opacity: 0.07;
+}
+:is(.bz-terrazzo)::after {
+  background-image: var(--tex-grain-dark);
+  opacity: 0.1;
+}
+.bz-chalk::after {
+  opacity: 0.12;
+}
+
+/* ---------- front extras: per-design placement ---------- */
+.blk-fm {
+  justify-content: center;
+}
+.bz-memphis .fm {
+  left: 60px;
+  right: auto;
+  top: 232px;
+  bottom: auto;
+  flex-direction: row-reverse;
+  text-align: left;
+}
+.bz-jaali .fm {
+  left: auto;
+  right: 22px;
+  bottom: 22px;
+  max-width: 200px;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--paper) 88%, #fff);
+  color: var(--ink);
+  border: 1.5px solid var(--accent);
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  text-align: right;
+}
+.bz-neon .fm {
+  top: 58px;
+  bottom: auto;
+  right: 60px;
+}
+.bz-neon.has-fm .neon-word {
+  top: 60%;
+}
+.bz-seal .fm-text {
+  max-width: 190px;
+}
+.bz-fitness.has-fm .ft-main {
+  justify-content: flex-start;
+  padding-top: 36px;
+}
+.bz-skyline .fm {
+  top: auto;
+  bottom: 20px;
+  right: 20px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
+}
+.bz-walnut .fm {
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 225, 190, 0.3);
+  font-weight: 700;
+}
+.bz-walnut .fm-qr {
+  background: #efd9b4;
+}
+.bz-walnut.has-fm .wood-badge {
+  left: 34%;
+  scale: 0.82;
+}
+.bz-walnut.has-fm .wood-logo {
+  left: 34%;
+}
+.bz-enso.has-fm .bz-svg,
+.bz-enso.has-fm .en-center {
+  transform-origin: 260px 0;
+  scale: 0.74;
+}
+.bz-enso.has-fm .en-center {
+  transform-origin: 150px -72px;
+}
+.bz-enso.has-fm .en-company {
+  top: 318px;
+}
+.bz-enso.has-fm .en-tag {
+  top: 360px;
+}
+.bd2-qr {
+  width: 104px;
+  height: 104px;
+  margin-top: 14px;
+  padding: 6px;
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  border-radius: 8px;
+}
+.bd2-qr svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* logos printed in the design's own ink (shape of the uploaded logo as a mask) */
+.kr-logo,
+.wood-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+.kr-logo {
+  width: 96px;
+  height: 70px;
+  background: var(--accent);
+  rotate: -9deg;
+  filter: url(#f-stamp);
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+.wood-logo {
+  z-index: 6;
+  width: 64px;
+  height: 56px;
+  background: color-mix(in srgb, var(--paper) 75%, #fff);
+}
+.neon-logo {
+  position: absolute;
+  left: 50%;
+  top: 56px;
+  z-index: 6;
+  width: 120px;
+  height: 46px;
+  translate: -50% 0;
+  background: center / contain no-repeat;
+  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 14px var(--accent));
+  opacity: var(--neon, 1);
+}
+.bz-neon.has-logo .neon-word {
+  top: 58%;
+}
+.bz-neon.has-logo.has-fm .neon-logo {
+  left: 90px;
+  translate: 0 0;
+}
+
+.fx-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  rotate: calc(var(--spin, 0) * 1deg);
+}
