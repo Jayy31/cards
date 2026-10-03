@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { POST_SAMPLE, POST_STRESS } from "@/lib/posts";
 import PostsPreview from "@/components/posts/PostsPreview";
-import { gujFontVars } from "../gujFonts";
 import "../posts.css";
 
 export const metadata: Metadata = {
@@ -20,7 +19,7 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
   const { fill = "" } = await searchParams;
   const stress = POST_STRESS[fill];
   return (
-    <main className={`ps-page ${gujFontVars}`}>
+    <main className="ps-page">
       <div className="ps-top">
         <Link href="/">← All designs</Link>
       </div>

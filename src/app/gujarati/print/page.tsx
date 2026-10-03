@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { checkPrintToken, getOrder } from "@/lib/gujStore";
 import { GujCard } from "@/components/gujarati/designs";
-import { gujFontVars } from "../../gujFonts";
 import "../../gujarati.css";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +12,7 @@ export default async function GujPrint({ searchParams }: { searchParams: Promise
   const d = (await getOrder(id))?.cards[t];
   if (!d) notFound();
   return (
-    <div className={gujFontVars} style={{ padding: 20, background: "transparent" }}>
+    <div style={{ padding: 20, background: "transparent" }}>
       <style>{"html, body { background: transparent !important; margin: 0; }"}</style>
       <GujCard id={t} d={d} theme={theme} flat />
     </div>

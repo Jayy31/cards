@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GUJ_STRESS } from "@/lib/gujarati";
 import GujStudio from "@/components/gujarati/GujStudio";
-import { gujFontVars } from "../gujFonts";
 import "../gujarati.css";
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export default async function GujaratiPage({ searchParams }: { searchParams: Pro
   const { fill = "" } = await searchParams;
   const stress = GUJ_STRESS[fill];
   return (
-    <main className={`gj-page ${gujFontVars}`}>
+    <main className="gj-page">
       <div className="gj-top">
         <Link href="/">← All designs</Link>
       </div>
