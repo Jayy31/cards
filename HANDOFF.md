@@ -259,8 +259,6 @@ Notes from chunk 3:
 - Canvas text needs the font's real family: read `--f-*` from computed style and `document.fonts.load()` first;
   thumbnails must redraw after the fonts load (see tv.tsx onInit).
 
-<<<<<<< HEAD
-=======
 Chunk 3 pending (planned for 2026-10-02):
 1. User runs a full MP4 export (watch Shubh TV and Kaagaz) and tests taps on a real phone.
 2. Kaagaz: add an iOS `DeviceOrientationEvent.requestPermission()` prompt (e.g. on first tap) so tilt works on iPhone.
@@ -268,13 +266,10 @@ Chunk 3 pending (planned for 2026-10-02):
 4. Chopda `flipup` turn: content overlaps mid-turn, so fade or dim the content during the flip.
 5. Check a possible Chitthi inner-page crease over a text line (probably the reveal caught mid-frame).
 
->>>>>>> master
 Ideas not built yet (for later chunks): scratch-to-reveal greeting card, pop-up book, gramophone record.
 
 ### Later (parked by the user)
 - More regional batches (Art Deco, pookalam, Warli/Kalamkari, pattachitra, gamosa…), and regional-language headings.
-<<<<<<< HEAD
-=======
 
 ## Gujarati visiting cards (single side) — step 1 done (2026-10-02)
 New category: print-first, single-side 3.5 × 2 in cards in Gujarati. Product plan (user's): the user fills one
@@ -401,4 +396,3 @@ User asked for a DIFFERENT design AND layout structure for each, to compare and 
 
 Next: user picks/adjusts designs → step 3 side form + Apply to all (+ per-template text edit) → step 4 PNG per shape,
 ZIP of all, mobile Share.
->>>>>>> master

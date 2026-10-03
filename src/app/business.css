@@ -1796,13 +1796,9 @@
   align-items: center;
   margin-bottom: 12px;
 }
-<<<<<<< HEAD
-.cat-rail button {
-=======
 .cat-rail button,
 .cat-rail .cat-link {
   text-decoration: none;
->>>>>>> master
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -1814,12 +1810,8 @@
   font-size: 14px;
   color: var(--ui-ink);
 }
-<<<<<<< HEAD
-.cat-rail button i {
-=======
 .cat-rail button i,
 .cat-rail .cat-link i {
->>>>>>> master
   font-style: normal;
   font-size: 12px;
   font-weight: 600;
@@ -1961,10 +1953,7 @@
     scrollbar-width: none;
   }
   .cat-rail button,
-<<<<<<< HEAD
-=======
   .cat-rail .cat-link,
->>>>>>> master
   .cat-sep {
     flex: none;
   }
