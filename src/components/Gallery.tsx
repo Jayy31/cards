@@ -3,6 +3,10 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { CATEGORIES, categoryLabel, TEMPLATES } from "@/lib/templates";
 import Thumb from "./Thumb";
+<<<<<<< HEAD
+=======
+import { GUJ_TEMPLATES } from "@/lib/gujarati";
+>>>>>>> master
 
 const uniq = (xs: string[]) => [...new Set(xs)];
 
@@ -92,6 +96,13 @@ export default function Gallery() {
             {c.label} <i>{counts[c.id]}</i>
           </button>
         ))}
+<<<<<<< HEAD
+=======
+        {/* single-side Gujarati cards live on their own page (fill once, see every design) */}
+        <Link href="/gujarati" className="cat-link" role="tab" aria-selected={false}>
+          ગુજરાતી Visiting Cards <i>{GUJ_TEMPLATES.length}</i>
+        </Link>
+>>>>>>> master
         <span className="cat-sep">Coming soon</span>
         {soon.map((c) => (
           <button key={c.id} role="tab" aria-selected={cat === c.id} className={`soon ${cat === c.id ? "on" : ""}`} onClick={() => choose(c.id)}>

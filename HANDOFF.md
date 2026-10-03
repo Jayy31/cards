@@ -259,7 +259,146 @@ Notes from chunk 3:
 - Canvas text needs the font's real family: read `--f-*` from computed style and `document.fonts.load()` first;
   thumbnails must redraw after the fonts load (see tv.tsx onInit).
 
+<<<<<<< HEAD
+=======
+Chunk 3 pending (planned for 2026-10-02):
+1. User runs a full MP4 export (watch Shubh TV and Kaagaz) and tests taps on a real phone.
+2. Kaagaz: add an iOS `DeviceOrientationEvent.requestPermission()` prompt (e.g. on first tap) so tilt works on iPhone.
+3. Make the fixed fun text editable: Chopda ledger rows, Diwali Times stories/weather, Chitthi P.S., TV ticker labels.
+4. Chopda `flipup` turn: content overlaps mid-turn, so fade or dim the content during the flip.
+5. Check a possible Chitthi inner-page crease over a text line (probably the reveal caught mid-frame).
+
+>>>>>>> master
 Ideas not built yet (for later chunks): scratch-to-reveal greeting card, pop-up book, gramophone record.
 
 ### Later (parked by the user)
 - More regional batches (Art Deco, pookalam, Warli/Kalamkari, pattachitra, gamosa…), and regional-language headings.
+<<<<<<< HEAD
+=======
+
+## Gujarati visiting cards (single side) — step 1 done (2026-10-02)
+New category: print-first, single-side 3.5 × 2 in cards in Gujarati. Product plan (user's): the user fills one
+side form (business name, owner, location, phone, email, logo, description) and "Apply to all" puts it on every
+design at once; ₹99 unlocks all designs. Built **step by step**; step 1 = the templates only.
+
+- Route `/gujarati` (linked from the gallery's category rail). `?fill=long` / `?fill=min` are stress tests.
+- Data + templates: `src/lib/gujarati.ts` (`GujCardData`, `GUJ_TEMPLATES` with a realistic sample each, `GUJ_STRESS`,
+  `initial()` monogram: hand-rolled so server/browser agree on Gujarati conjuncts).
+- Designs: `src/components/gujarati/designs.tsx` → `GUJ_DESIGNS`, `<GujCard id d flat>` (700 × 400; `flat` drops paper grain for print).
+- `Fit.tsx`: shrink-to-fit text (allows ~0.35 em vertical spill because Gujarati matras overflow the line box).
+- Page grid: `GujStudio.tsx` (takes `data`, which will come from the side form in step 2). CSS `src/app/gujarati.css`.
+- Fonts `src/app/gujFonts.ts` (Hind Vadodara, Mukta Vaani, Baloo Bhai 2, Rasa, Shrikhand, Anek Gujarati, Farsan,
+  Kumar One, Noto Serif Gujarati, Mogra), applied on the page wrapper only.
+
+| id | Name | Sample trade | Lang | Look |
+| --- | --- | --- | --- | --- |
+| gu-pedhi | Pedhi | kirana/traders | gu | cream, red double border, owner + મો. in top corners, red address band |
+| gu-sonu | Sonu Chandi | jewellers | gu | maroon, gold gradient text, ornate corners, gold medallion |
+| gu-keri | Keri | saree/textile | gu | rani-pink paisley panel, scalloped edge, kangura border |
+| gu-toran | Toran | caterers | gu | marigold + mango-leaf toran, orange dotted band |
+| gu-nakkar | Nakkar | hardware | mix | blue band, yellow slash, icon badges |
+| gu-tulsi | Tulsi | clinic | mix | white, teal waves, minimal |
+| gu-pathshala | Pathshala | tuition | mix | sunny, teal blob, pill chips |
+| gu-shilp | Shilp | builder | mix | charcoal + champagne, line geometry |
+
+Rules: no trade-specific motifs (details are applied to all designs), every slot shrinks to fit, empty fields leave
+no gaps, 28 px safe zone. Text sizes are set for print (200 px/in, so body text 16–19 px ≈ 6–7 pt).
+Verified: typecheck, no console errors, screenshots with sample / long / minimal data.
+
+### Step 2: side form + Apply to all (done 2026-10-02)
+- `GujStudio.tsx`: sticky right-side form (business*, owner, title/degree, description with a soft 160-char hint,
+  phone, email with a format warning, address, logo upload via `/api/upload`). "Apply to all designs" (default on)
+  puts the details on all 8; unticked, only on the selected card (click a card to select it; orange outline).
+  Empty fields are dropped. Form + applied details + checkbox persist in localStorage (`gj-studio-v1`).
+  "Clear my details" brings back the samples. On phones the form sits first and Apply scrolls to the cards.
+- `?fill=` test pills show in development only.
+- **Fixed a pre-existing bug:** `/api/upload` returned 500 for every upload (all editors), because Node 18 has no
+  global `File`; the check is now `instanceof Blob`.
+- Verified in Chrome: typing Gujarati, logo upload, apply-all, apply-one, reload restore, 390 px phone (no sideways scroll), no console errors.
+
+### Step 3 + 4: downloads, watermark, ₹99 unlock (done 2026-10-02)
+- Orders: `src/lib/gujStore.ts` → `.data/gujarati/<id>.json` = { cards (details per design), paid, payment }.
+  Input is cleaned server-side (length limits; logo must be one of our `/api/uploads/...` files, so headless Chrome
+  never fetches an outside URL). The page keeps the order id in localStorage and asks the server whether it's paid.
+- API: `POST /api/gujarati` (save applied details) · `GET /api/gujarati/:id` · `POST /api/gujarati/:id/unlock` ·
+  `GET /api/gujarati/:id/download?t=<design>&format=pdf|png|digital` (402 until paid; UTF-8 Gujarati file names).
+- Print page `/gujarati/print?id&t&k`: bare card without a watermark; `k` is an HMAC only the server knows
+  (`GUJ_PRINT_SECRET`, else a random key per process).
+- Exports (`src/lib/gujRender.ts`, reuses the shared headless Chrome from render.ts, now exported as `browser()`):
+  - Print PDF: 600 dpi artwork, **3 mm bleed made by extending the card's edge pixels**, crop marks; page 106.9 × 68.8 mm.
+  - PNG: 2100 × 1200, tagged 600 dpi (pHYs chunk).  - WhatsApp: 1400 × 800, rounded corners, transparent outside.
+- Screen: cards with the user's details show a "SHUBH CARDS · PREVIEW" watermark until paid (on-screen only; downloads
+  are the protected part). Side panel has the unlock box; per-card download buttons appear once paid.
+- **Payment is a mock**: `unlock` marks the order paid without charging (allowed in development, or with GUJ_MOCK_PAY=1;
+  returns 501 in production otherwise). To go live: Razorpay order on the server → Checkout on the page → verify the
+  signature in the unlock route → `markPaid(id, paymentId)`.
+- Verified: API (402/404/bad logo stripped), PDF size + 602 ppi image + crop marks visually, PNG 2100×1200 @600 dpi,
+  browser flow (watermark → unlock → PDF + WhatsApp downloads → reload keeps paid), no console errors.
+
+### Colour themes (done 2026-10-02)
+- 4 themes per design in `GUJ_PALETTES` (`src/lib/gujarati.ts`); the first is the original look. A theme is a set of
+  CSS custom properties put on the card root (`GujCard theme=`); the design CSS and SVG art read only those variables
+  (SVG uses `style={{ fill: "var(--x)" }}`, since var() in presentation attributes isn't reliable).
+  Pedhi: Lal-Vadli, Kesar, Leelo, Neelam · Sonu Chandi: Maroon, Emerald, Navy & silver, Black & gold · Keri: Rani,
+  Peacock, Galgota, Indigo · Toran: Galgota, Gulab, Mogra, Lal · Nakkar: Blue & yellow, Red & black, Green & lime,
+  Black & orange · Tulsi: Teal, Blue, Purple, Rose · Pathshala: Sunny, Sky, Lavender, Mint · Shilp: Charcoal & copper,
+  Navy & gold, Forest & brass, Ivory & black.
+- UI: colour dots under each card (per design, works on samples too), saved in localStorage; downloads pass
+  `&theme=` → print page. Verified: all 32 combinations screenshot-checked; downloaded image uses the chosen theme.
+
+### Several people & numbers (done 2026-10-02)
+- `GujCardData.people: GujPerson[]` ({ name?, role?, phones: { number, label?: mobile | office | whatsapp }[] }).
+  Limits: 3 people, 2 numbers each, 4 numbers in all (`GUJ_MAX_*`, enforced in the form and in `cleanPeople` on the
+  server). The older owner/role/phone fields still load: `peopleOf(d)` reads either shape (old saved forms too).
+- Cards: `Owner` stacks every person's name + title; `phoneLines` makes one line per person per label, tagged with the
+  first name when there are several people ("રમેશભાઈ: 98250 12345"); the icon shows the label (handset / desk phone /
+  WhatsApp). Pedhi puts people in the classic corners (left / centre / right) with "મો." / "ફોન" prefixes; Toran
+  wraps the numbers centred; Pathshala makes a chip per line. Contacts shrink a little when there are 5–6 lines.
+- Samples now show it: Pedhi has two partners, Nakkar a mobile + shop number. Test pill `?fill=team` (3 people, 4 numbers).
+- Form: a box per person (name, title, numbers with a type select), "+ Add another number", "+ Add another person", ×
+  to remove. Verified: limits, remove, apply, reload, legacy restore, PDF download, phone layout, no console errors.
+
+Open decisions for the user (parked for after the MVP): real payment gateway + keys; whether details can still be edited after paying (now: yes);
+A4 sheet of 10 cards for home printing; more phone numbers; deity line; Gujarati transliteration.
+
+## Festival business posts (static images) — step 1 done (2026-10-02)
+Plan agreed with the user: like the Gujarati cards (side form → Apply to all), but social-media IMAGES (no video).
+5 templates: Navratri, Dussehra, Dhanteras, Diwali, Bestu Varas. English; Navratri + Bestu Varas mixed Gujarati/English.
+Every text on a template is editable (greeting heading, wish, message; defaults from the template). No pricing/unlock in this MVP.
+Shapes: 1:1 1080², 4:5 1080×1350, 9:16 1080×1920 (Facebook 1.91:1 left out). All 1080 wide, so the brand block is
+the same everywhere; each design **recomposes** vertically (not scaled). Story: text + brand stay out of the top 250 /
+bottom 340 px (`STORY_SAFE`); only art goes there.
+
+- Route `/posts` (`?fill=long|min` stress pills, dev only). Not yet linked from the gallery.
+- `src/lib/posts.ts`: `PostBrand` (business, owner, services, phones[≤2], address, social, website, offer, logo),
+  `PostText` (heading, wish, message), `POST_RATIOS`, `POST_TEMPLATES`, `POST_SAMPLE`, `POST_STRESS`.
+- `src/components/posts/common.tsx`: `Brand` (logo | name/owner/services | phones, footer: address · social · web;
+  sparse data → bigger), `Offer` ribbon, `FitName` (1 line down to 70%, then 2 lines), `Squeeze` (scales a whole stack
+  down if it overflows its box), `splitHeading` ("Happy Diwali" → script "Happy" + display "Diwali"), `seeded()`.
+- `designs.tsx` → `POST_DESIGNS` / `<PostCard id ratio b t>`; `PostsPreview.tsx` shows each template in all shapes.
+- **Diwali · Dwaar** (`Dwaar.tsx`): indigo lime-wash wall, carved teak frame + brass studs, doors open on a lit room,
+  procedural marigold toran (ruffle filter) + mango leaves, side garlands that lengthen with the shape, Shubh–Labh in
+  kumkum, clay diyas on a kota-stone step. Story: brand becomes an inset card; floor with powder rangoli fills the
+  bottom (unsafe) zone. Geometry per shape in `GEO`.
+- Verified: typecheck, no console errors, screenshots of all 3 shapes × sample / long / minimal.
+
+### Step 2: the other 4 templates (done 2026-10-02)
+User asked for a DIFFERENT design AND layout structure for each, to compare and pick from. Order on the page = festival date.
+
+| Template (file) | Medium | Structure | Brand |
+| --- | --- | --- | --- |
+| Navratri · Garbo (`Garbo.tsx`) | red bandhani (displaced dot pattern + fold lighting), lit terracotta garbo throwing light dots, lacquered dandiya | brand FIRST at top, greeting middle, pot rising from bottom | `Brand` on an embroidered mirror-work patch |
+| Dussehra · Dahan (`Dahan.tsx`) | dusk Ramlila ground, 10-headed paper/bamboo Ravan, fire at feet, embers, crowd | SPLIT: text + brand in a left column, effigy right | `Brand` with `is-stack` in a dark card |
+| Dhanteras · Thali (`Thali.tsx`) | top-down embossed brass thali on peacock-green silk, silver/gold coins, kumkum katori, diya, rice, petals | CENTRED: logo + name head, greeting ENGRAVED in the brass, contacts below | custom split head/foot |
+| Diwali · Dwaar (`Dwaar.tsx`) | doorway (step 1) | stacked: art + bottom band | `Brand` band |
+| Bestu Varas · Paatiyu (`Paatiyu.tsx`) | hand-painted enamel signboard on chains, lime-wash wall with brick showing | BUSINESS-FIRST: the name is the sign | custom painted lettering |
+
+- `PostText.local` = Gujarati line (Navratri "શુભ નવરાત્રી", Bestu Varas "નૂતન વર્ષાભિનંદન"); page wrapper loads `gujFontVars`.
+  Kumar One shaped "વર્ષાભિનંદન" badly → Baloo Bhai 2 800 on the signboard.
+- Stress text is now per template: `stressText(tpl.text, "long" | "min")`.
+- Long festival text is line-clamped with "…" (CSS block at the end of posts.css).
+- Verified: typecheck, no console errors, all 15 posts screenshot-checked with sample / long / minimal data.
+
+Next: user picks/adjusts designs → step 3 side form + Apply to all (+ per-template text edit) → step 4 PNG per shape,
+ZIP of all, mobile Share.
+>>>>>>> master

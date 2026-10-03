@@ -15,7 +15,12 @@ const TYPES: Record<string, string> = {
 export async function POST(req: Request) {
   const form = await req.formData().catch(() => null);
   const file = form?.get("file");
+<<<<<<< HEAD
   if (!(file instanceof File)) return NextResponse.json({ error: "No file" }, { status: 400 });
+=======
+  // Blob, not File: Node 18 has no global File (the check threw and every upload 500ed)
+  if (!(file instanceof Blob)) return NextResponse.json({ error: "No file" }, { status: 400 });
+>>>>>>> master
   const ext = TYPES[file.type];
   if (!ext) return NextResponse.json({ error: "Unsupported file type" }, { status: 415 });
   if (file.size > 12 * 1024 * 1024) return NextResponse.json({ error: "File is larger than 12 MB" }, { status: 413 });

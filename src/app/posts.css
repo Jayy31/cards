@@ -1,0 +1,348 @@
+/* ===== Festival business posts (1080 px wide; 1080 / 1350 / 1920 tall) ===== */
+
+.pc {
+  position: relative;
+  width: 1080px;
+  overflow: hidden;
+  isolation: isolate;
+  line-height: 1.25;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--f-manrope), system-ui, sans-serif;
+}
+.pc .pc-art { position: absolute; inset: 0; display: block; }
+.pc h1, .pc h2, .pc p { margin: 0; font-weight: inherit; }
+.pc .fit { overflow: hidden; min-width: 0; }
+.pc-ic { flex: none; display: block; }
+
+/* whole-stack shrink (see <Squeeze>) */
+.pc-squeeze { position: absolute; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.pc-squeeze-in { width: 100%; flex: none; transform-origin: 50% 50%; display: flex; flex-direction: column; align-items: center; }
+
+/* ---------- shared brand block ---------- */
+.pc-brand { left: 0; right: 0; padding: 26px 44px 22px; }
+.pc-brand.has-offer { padding-top: 40px; }
+.pc-brand .pc-squeeze-in { align-items: stretch; gap: 16px; }
+.pc-main { display: flex; align-items: center; gap: 28px; min-width: 0; }
+.pc-logo {
+  flex: none;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.pc-logo img { width: 84%; height: 84%; object-fit: contain; }
+.pc-logo b { font-size: 70px; line-height: 1; font-weight: 400; }
+.pc-who { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.pc-biz { max-height: 2.4em; line-height: 1.15; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.pc-owner { white-space: nowrap; text-overflow: ellipsis; }
+.pc-services { max-height: 2.8em; line-height: 1.35; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.pc-brand.is-sparse .pc-logo { width: 160px; height: 160px; }
+.pc-brand.is-sparse .pc-logo b { font-size: 86px; }
+.pc-phones { flex: none; max-width: 360px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pc-phone { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.pc-phone .fit { white-space: nowrap; font-weight: 800; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.pc-phone + .pc-phone .pc-ic { visibility: hidden; }
+.pc-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 30px;
+  padding-top: 14px;
+  font-size: 22px;
+  line-height: 1.3;
+  text-align: center;
+}
+.pc-foot > span { display: inline-flex; align-items: flex-start; gap: 8px; min-width: 0; max-width: 100%; }
+.pc-foot .pc-ic { margin-top: 2px; }
+
+.pc-offer { position: absolute; left: 50%; transform: translateX(-50%); z-index: 3; max-width: 920px; }
+.pc-offer .fit { white-space: nowrap; text-overflow: ellipsis; }
+
+/* ---------- Diwali · Dwaar ---------- */
+.pc-dwaar { background: #1a2846; }
+.dw-text { left: 262px; right: 262px; z-index: 2; color: #5e1410; text-align: center; }
+.dw-text .pc-squeeze-in { gap: 6px; }
+.dw-text .fit { width: 100%; }
+.dw-lead {
+  font-family: var(--f-great-vibes), cursive;
+  color: #8a4b0c;
+  line-height: 1.1;
+  max-height: 1.25em;
+  white-space: nowrap;
+  margin-bottom: -0.18em;
+}
+.dw-word {
+  font-family: var(--f-cinzel-deco), serif;
+  font-weight: 700;
+  line-height: 1.08;
+  max-height: 2.3em;
+  letter-spacing: 0.01em;
+  color: #6a140e;
+  text-shadow: 0 1px 0 rgba(255, 238, 190, 0.9), 0 2px 10px rgba(255, 220, 140, 0.6);
+}
+.dw-orn { color: #a8661c; margin: 8px 0 10px; }
+.dw-wish {
+  font-family: var(--f-cormorant), serif;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.28;
+  max-height: 4em;
+  color: #4a1a0a;
+}
+.dw-msg {
+  margin-top: 10px;
+  font-family: var(--f-cormorant), serif;
+  font-weight: 600;
+  line-height: 1.3;
+  max-height: 2.7em;
+  color: #7a3a10;
+  letter-spacing: 0.01em;
+}
+
+/* brand: deep maroon band with a woven gold zari edge */
+.dw-brand {
+  z-index: 2;
+  color: #fbe9c8;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(255, 190, 110, 0.14), transparent 60%),
+    linear-gradient(#5d1311, #44090b);
+}
+.dw-brand::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 14px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 6px, rgba(90, 40, 0, 0.55) 6px 7px),
+    linear-gradient(#f6d27a, #c58d26 45%, #f3cb6c 55%, #a8721a);
+  box-shadow: 0 2px 0 #2a0505, 0 5px 0 #d9a748, 0 6px 0 #2a0505;
+}
+.dw-brand.is-card {
+  left: 36px;
+  right: 36px;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 0 0 3px #d9a748, inset 0 0 0 7px #4a0b0b, inset 0 0 0 8px #b98330;
+}
+.dw-brand.is-card::before { display: none; }
+.dw-brand .pc-logo { background: #fff8ea; box-shadow: 0 0 0 4px #d9a748, 0 0 0 7px #4a0b0b, 0 0 0 8px #b98330; }
+.dw-brand .pc-logo b { font-family: var(--f-cinzel-deco), serif; color: #6a140e; font-weight: 700; }
+.dw-brand .pc-biz { font-family: var(--f-playfair), serif; font-weight: 700; color: #f5cf73; }
+.dw-brand .pc-owner { font-weight: 600; color: #f1d9b0; letter-spacing: 0.02em; }
+.dw-brand .pc-services { color: #e9caa0; font-weight: 500; }
+.dw-brand .pc-phones { padding-left: 26px; border-left: 2px solid rgba(217, 167, 72, 0.45); }
+.dw-brand .pc-phone { color: #fff3dc; }
+.dw-brand .pc-phone .pc-ic { color: #f5cf73; }
+.dw-brand .pc-foot { border-top: 1.5px solid rgba(217, 167, 72, 0.4); color: #f1dcb8; font-weight: 500; }
+.dw-brand .pc-foot .pc-ic { color: #f5cf73; }
+.dw-offer {
+  padding: 10px 56px;
+  color: #4a0a08;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: linear-gradient(#ffd96b, #f3a91f 60%, #e48c12);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 50%, 100% 100%, 0 100%, 22px 50%);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* ===== page ===== */
+.ps-page { min-height: 100vh; background: #f6f1e7; color: #2b1d14; font-family: var(--f-ui), system-ui, sans-serif; padding: 0 16px 80px; }
+.ps-top { max-width: 1240px; margin: 0 auto; padding: 16px 0; }
+.ps-top a { color: inherit; text-decoration: none; opacity: 0.75; }
+.ps-head { max-width: 1240px; margin: 0 auto 28px; }
+.ps-head h1 { font-family: var(--f-playfair), serif; font-size: clamp(28px, 4vw, 42px); margin: 0 0 6px; }
+.ps-head p { margin: 0; max-width: 640px; opacity: 0.8; }
+.ps-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.ps-tools a { padding: 6px 12px; border-radius: 99px; background: #fff; border: 1px solid #e3d6c3; color: inherit; text-decoration: none; font-size: 14px; }
+.ps-tools a.on { background: #2b1d14; color: #fff; border-color: #2b1d14; }
+.ps-list { max-width: 1240px; margin: 0 auto; display: grid; gap: 48px; }
+.ps-tpl h2 { font-family: var(--f-playfair), serif; font-size: 26px; margin: 0; }
+.ps-tpl h2 em { font-style: italic; color: #a1501b; }
+.ps-medium { margin: 4px 0 16px; opacity: 0.7; font-size: 14px; }
+.ps-row { display: grid; grid-template-columns: 1080fr 1080fr 1080fr; gap: 20px; align-items: start; }
+.ps-fig { margin: 0; min-width: 0; }
+.ps-stage { position: relative; width: 100%; overflow: hidden; border-radius: 10px; box-shadow: 0 10px 30px rgba(60, 30, 10, 0.18); background: #ddd; }
+.ps-scale { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.ps-fig figcaption { margin-top: 8px; font-size: 13px; }
+.ps-fig figcaption span { display: block; opacity: 0.65; }
+@media (max-width: 760px) {
+  .ps-row { grid-template-columns: 1fr; }
+}
+
+/* stacked brand (narrow column) */
+.pc-brand.is-stack .pc-main { flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+.pc-brand.is-stack .pc-logo { width: 104px; height: 104px; }
+.pc-brand.is-stack .pc-logo b { font-size: 56px; }
+.pc-brand.is-stack .pc-who { flex: 1 1 0; }
+.pc-brand.is-stack .pc-phones { max-width: none; flex: 1 1 100%; padding: 0; border: 0; }
+.pc-brand.is-stack .pc-phone + .pc-phone .pc-ic { visibility: visible; opacity: 0; }
+.pc-brand.is-stack .pc-foot { flex-direction: column; align-items: flex-start; justify-content: flex-start; text-align: left; gap: 6px; }
+
+/* ---------- Navratri · Garbo ---------- */
+.pc-garbo { background: #9e0c1a; }
+.gb-brand { left: 70px; right: 70px; padding: 6px 24px; color: #3a0d08; }
+.gb-brand .pc-logo { background: #7a0a12; box-shadow: 0 0 0 4px #f2b705, 0 0 0 7px #1f7a3e; }
+.gb-brand .pc-logo b { font-family: var(--f-gu-shrikhand), serif; color: #ffd23a; }
+.gb-brand .pc-biz { font-family: var(--f-rozha), serif; color: #8a0b16; }
+.gb-brand .pc-owner { font-weight: 700; color: #1f5a30; }
+.gb-brand .pc-services { color: #4a2a18; font-weight: 600; }
+.gb-brand .pc-phones { padding-left: 24px; border-left: 3px dashed #1f7a3e; }
+.gb-brand .pc-phone { color: #2a0a06; }
+.gb-brand .pc-phone .pc-ic { color: #c0172b; }
+.gb-brand .pc-foot { border-top: 2px dashed rgba(122, 10, 18, 0.4); padding-top: 10px; color: #3a1a10; font-weight: 600; font-size: 21px; }
+.gb-brand .pc-foot .pc-ic { color: #c0172b; }
+.gb-brand .pc-squeeze-in { gap: 10px; }
+.gb-offer {
+  padding: 8px 40px;
+  border-radius: 999px;
+  color: #fff7e0;
+  font-weight: 800;
+  background: #1f7a3e;
+  box-shadow: 0 0 0 3px #f2b705, 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+.gb-text { left: 120px; right: 120px; z-index: 2; color: #fff1d6; text-align: center; }
+.gb-text .pc-squeeze-in { gap: 6px; }
+.gb-text .fit { width: 100%; }
+.gb-local {
+  font-family: var(--f-gu-shrikhand), serif;
+  color: #ffd23a;
+  line-height: 1.3;
+  max-height: 2.5em;
+  text-shadow: 0 3px 0 #6a0610, 0 6px 18px rgba(60, 0, 0, 0.6);
+}
+.gb-head { font-family: var(--f-marcellus), serif; letter-spacing: 0.22em; text-transform: uppercase; white-space: nowrap; color: #fff1d6; text-shadow: 0 2px 8px rgba(60, 0, 0, 0.7); }
+.gb-wish, .gb-msg { font-family: var(--f-cormorant), serif; font-style: italic; font-weight: 600; line-height: 1.28; max-height: 4em; text-shadow: 0 2px 8px rgba(60, 0, 0, 0.8); margin-top: 6px; }
+.gb-msg { font-style: normal; max-height: 2.7em; color: #ffe3a8; }
+
+/* ---------- Dussehra · Dahan ---------- */
+.pc-dahan { background: #1b1238; }
+.dh-text { left: 56px; width: 470px; z-index: 2; color: #fff0dc; }
+.dh-text .pc-squeeze-in { align-items: flex-start; gap: 4px; }
+.dh-text .fit { width: 100%; }
+.dh-lead { font-family: var(--f-marcellus), serif; text-transform: uppercase; letter-spacing: 0.3em; line-height: 1.3; max-height: 2.7em; color: #ffc46a; }
+.dh-word {
+  font-family: var(--f-rozha), serif;
+  line-height: 1.02;
+  max-height: 2.1em;
+  color: #fff3e0;
+  text-shadow: 0 0 30px rgba(255, 120, 40, 0.45), 0 4px 0 #5a1414;
+}
+.dh-rule { display: block; width: 120px; height: 4px; margin: 14px 0 12px; background: linear-gradient(90deg, #ffb347, #e2470f); border-radius: 2px; }
+.dh-wish { font-family: var(--f-cormorant), serif; font-weight: 600; font-style: italic; line-height: 1.28; max-height: 5.2em; color: #ffe6c8; }
+.dh-msg { font-family: var(--f-cormorant), serif; font-weight: 600; line-height: 1.3; max-height: 2.7em; color: #f3c9a0; margin-top: 8px; }
+.dh-card {
+  position: absolute;
+  left: 40px;
+  width: 520px;
+  z-index: 2;
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(30, 12, 22, 0.88), rgba(20, 8, 14, 0.92));
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1.5px rgba(255, 180, 90, 0.55);
+  backdrop-filter: blur(4px);
+}
+.dh-brand { inset: 0; padding: 28px 30px; color: #f6e2c8; }
+.dh-card:has(.dh-offer) .dh-brand { padding-top: 76px; }
+.dh-offer {
+  left: 20px;
+  right: 20px;
+  top: 18px;
+  transform: none;
+  max-width: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #e2470f, #ff8a2a);
+  color: #fff;
+  font-weight: 800;
+  text-align: center;
+}
+.dh-brand .pc-logo { background: #fff3e0; box-shadow: 0 0 0 3px #ff9a3a; }
+.dh-brand .pc-logo b { font-family: var(--f-rozha), serif; color: #8a1a10; }
+.dh-brand .pc-biz { font-family: var(--f-rozha), serif; color: #ffc46a; }
+.dh-brand .pc-owner { font-weight: 600; color: #f6e2c8; }
+.dh-brand .pc-services { color: #d9b9a0; }
+.dh-brand .pc-phone { color: #fff; }
+.dh-brand .pc-phone .pc-ic, .dh-brand .pc-foot .pc-ic { color: #ff9a3a; }
+.dh-brand .pc-foot { border-top: 1px solid rgba(255, 180, 90, 0.35); color: #e9cdb0; padding-top: 12px; }
+
+/* ---------- Dhanteras · Thali ---------- */
+.pc-thali { background: #0b4f45; }
+.th-head { position: absolute; left: 60px; right: 60px; display: flex; align-items: center; justify-content: center; gap: 24px; z-index: 2; }
+.th-head .pc-logo { width: 116px; height: 116px; background: #fff8e6; box-shadow: 0 0 0 4px #d9a43a, 0 0 0 8px #0b4f45, 0 0 0 9px #d9a43a; }
+.th-head .pc-logo b { font-family: var(--f-playfair), serif; font-weight: 700; color: #0b4f45; font-size: 62px; }
+.th-who { min-width: 0; max-width: 760px; display: flex; flex-direction: column; gap: 4px; }
+.th-who .pc-biz { font-family: var(--f-playfair), serif; font-weight: 700; color: #f6d27a; max-height: 2.4em; line-height: 1.15; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+.th-who .pc-owner { color: #cfeee2; font-weight: 600; }
+.th-text { z-index: 2; text-align: center; color: #5a3606; }
+.th-text .pc-squeeze-in { gap: 2px; }
+.th-text .fit { width: 100%; }
+/* engraved: dark cut with a bright lower lip */
+.th-lead, .th-word, .th-wish, .th-msg { text-shadow: 0 1.5px 0 rgba(255, 244, 196, 0.85), 0 -1px 0 rgba(90, 50, 0, 0.5); }
+.th-lead { font-family: var(--f-great-vibes), cursive; color: #6e4208; white-space: nowrap; line-height: 1.1; margin-bottom: -0.15em; }
+.th-word { font-family: var(--f-cinzel), serif; font-weight: 700; letter-spacing: 0.04em; line-height: 1.05; max-height: 2.2em; color: #5a3606; }
+.th-rule { display: block; width: 46%; height: 2px; margin: 12px auto 10px; background: #6e4208; box-shadow: 0 1.5px 0 rgba(255, 244, 196, 0.85); }
+.th-wish { font-family: var(--f-cormorant), serif; font-weight: 700; font-style: italic; line-height: 1.25; max-height: 3.8em; color: #4e2e04; }
+.th-msg { font-family: var(--f-cormorant), serif; font-weight: 700; line-height: 1.25; max-height: 2.6em; color: #6e4208; margin-top: 6px; }
+.th-offer {
+  padding: 8px 44px;
+  color: #3a2200;
+  font-weight: 800;
+  background: linear-gradient(#fff0b0, #e8b84a 55%, #c8902a);
+  border-radius: 6px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+}
+.th-foot { left: 60px; right: 60px; z-index: 2; color: #e6f4ee; text-align: center; }
+.th-foot.has-offer { padding-top: 30px; }
+.th-foot .pc-squeeze-in { gap: 10px; }
+.th-foot .pc-services { width: 100%; color: #f6d27a; font-weight: 600; }
+.th-phones { display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 100%; color: #fff; }
+.th-phones .pc-ic { color: #f6d27a; }
+.th-phones .fit { white-space: nowrap; font-weight: 800; }
+.th-foot .pc-foot { padding-top: 4px; color: #cfeee2; }
+.th-foot .pc-foot .pc-ic { color: #f6d27a; }
+
+/* ---------- Bestu Varas · Paatiyu ---------- */
+.pc-paatiyu { background: #ece4d2; }
+.pt-paint { left: 120px; right: 120px; z-index: 2; color: #161616; text-align: center; }
+.pt-paint .pc-squeeze-in { gap: 10px; min-height: 100%; justify-content: space-evenly; }
+.pt-paint .fit { width: 100%; }
+.pt-shree { font-family: var(--f-gu-baloo), serif; font-weight: 800; font-size: 30px; color: #d81f26; line-height: 1.2; }
+.pt-name { display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%; min-width: 0; }
+.pt-name .pt-biz { flex: 1; width: auto; }
+.pt-logo { flex: none; width: 110px; height: 110px; border-radius: 12px; background: #fff; display: grid; place-items: center; box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.25); transform: rotate(-2deg); }
+.pt-logo img { width: 86%; height: 86%; object-fit: contain; }
+.pt-biz {
+  font-family: var(--f-rozha), serif;
+  color: #d81f26;
+  line-height: 1.08;
+  max-height: 2.3em;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  -webkit-text-stroke: 2px #1a1a1a;
+  paint-order: stroke fill;
+  text-shadow: 4px 4px 0 #1b3f8f;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.pt-strip { background: #161616; color: #ffd534; padding: 6px 18px; border-radius: 4px; font-weight: 700; white-space: nowrap; text-overflow: ellipsis; letter-spacing: 0.02em; }
+.pt-greet { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 14px 0 12px; border-top: 3px solid #14773a; border-bottom: 3px solid #14773a; margin: 6px 0; }
+.pt-local { font-family: var(--f-gu-baloo), serif; font-weight: 800; color: #1b3f8f; line-height: 1.35; max-height: 2.8em; text-shadow: 3px 3px 0 rgba(216, 31, 38, 0.85); }
+.pt-head { font-family: var(--f-rozha), serif; color: #14773a; white-space: nowrap; line-height: 1.15; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.18); }
+.pt-wish { font-family: var(--f-gu-hind), sans-serif; font-weight: 600; line-height: 1.3; max-height: 2.7em; }
+.pt-msg { font-family: var(--f-gu-hind), sans-serif; font-weight: 500; line-height: 1.3; max-height: 2.7em; color: #3a3a3a; }
+.pt-offer { background: #d81f26; color: #fff; padding: 8px 20px; border-radius: 6px; font-weight: 800; white-space: nowrap; text-overflow: ellipsis; transform: rotate(-1.5deg); box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.25); width: auto !important; max-width: 100%; }
+.pt-phones { display: flex; align-items: center; justify-content: center; gap: 14px; max-width: 100%; color: #161616; }
+.pt-phones .pc-ic { color: #d81f26; }
+.pt-phones .fit { white-space: nowrap; font-family: var(--f-gu-hind), sans-serif; font-weight: 700; letter-spacing: 0.02em; }
+.pt-foot { padding-top: 2px; font-family: var(--f-gu-hind), sans-serif; font-weight: 600; color: #222; }
+.pt-foot .pc-ic { color: #14773a; }
+
+/* long festival text ends with "…" instead of a half-cut line */
+.th-wish, .th-msg, .dw-wish, .dw-msg, .gb-wish, .gb-msg, .dh-wish, .dh-msg, .pt-wish, .pt-msg { display: -webkit-box; -webkit-box-orient: vertical; }
+.th-wish, .dw-wish, .gb-wish { -webkit-line-clamp: 3; }
+.dh-wish { -webkit-line-clamp: 4; }
+.th-msg, .dw-msg, .gb-msg, .dh-msg, .pt-wish, .pt-msg { -webkit-line-clamp: 2; }

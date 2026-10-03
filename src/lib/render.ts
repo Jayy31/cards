@@ -18,7 +18,11 @@ const CHROME = process.env.CHROME_PATH || ["/usr/bin/google-chrome", "/usr/bin/c
 
 const g = globalThis as unknown as { __browser?: Promise<Browser>; __jobs?: Map<string, VideoJob> };
 
+<<<<<<< HEAD
 async function browser() {
+=======
+export async function browser() {
+>>>>>>> master
   if (!g.__browser) {
     g.__browser = puppeteer.launch({
       executablePath: CHROME,
