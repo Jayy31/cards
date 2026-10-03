@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CATEGORIES, categoryLabel, TEMPLATES } from "@/lib/templates";
 import Thumb from "./Thumb";
 import { GUJ_TEMPLATES } from "@/lib/gujarati";
+import { POST_TEMPLATES } from "@/lib/posts";
 
 const uniq = (xs: string[]) => [...new Set(xs)];
 
@@ -96,6 +97,10 @@ export default function Gallery() {
         {/* single-side Gujarati cards live on their own page (fill once, see every design) */}
         <Link href="/gujarati" className="cat-link" role="tab" aria-selected={false}>
           ગુજરાતી Visiting Cards <i>{GUJ_TEMPLATES.length}</i>
+        </Link>
+        {/* festival business posts are static images with their own page */}
+        <Link href="/posts" className="cat-link" role="tab" aria-selected={false}>
+          Festival Posts for Business <i>{POST_TEMPLATES.length}</i>
         </Link>
         <span className="cat-sep">Coming soon</span>
         {soon.map((c) => (
